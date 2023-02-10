@@ -1,9 +1,19 @@
-import React from "react";
-import "./intro.css";
+import React, { useState } from "react";
+import "../auth.css";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/logo.jpg";
 
 const Intro = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const signin = (e: any) => {
+    e.preventDefault();
+    console.log("로그인", username, password);
+  };
+
   return (
     <div className='container'>
       <main className='loginMain'>
@@ -13,39 +23,46 @@ const Intro = () => {
               <h1>
                 <img src={logo} alt='로고' />
               </h1>
-              <form action='' className='login__input'>
+              <form onSubmit={signin} className='login__input' method='post'>
                 <input
                   type='text'
                   name='username'
                   placeholder='아이디'
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
                   required
                 />
                 <input
                   type='password'
                   name='password'
                   placeholder='비밀번호'
-                  required='required'
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  required
                 />
-                <button>로그인</button>
+                <button type='submit'>로그인</button>
               </form>
 
-              <div class='login__horizon'>
-                <div class='br'></div>
-                <div class='or'>또는</div>
-                <div class='br'></div>
+              <div className='login__horizon'>
+                <div className='br'></div>
+                <div className='or'>또는</div>
+                <div className='br'></div>
               </div>
 
-              <div class='login__facebook'>
+              <div className='login__facebook'>
                 <button>
-                  <i class='fab fa-facebook-square'></i>
+                  <i className='fab fa-facebook-square'></i>
                   <span>Facebook으로 로그인</span>
                 </button>
               </div>
             </div>
 
-            <div class='login__register'>
-              <span>계정이 없으신가요?</span>
-              <a href='/auth/signup'>가입하기</a>
+            <div className='login__register'>
+              <a href='/signup'>가입하기</a>
             </div>
           </article>
         </section>
