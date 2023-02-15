@@ -62,7 +62,9 @@ const Intro = () => {
             </div>
 
             <div className='login__register'>
-              <a href='/signup'>가입하기</a>
+              <span className='auth__click' onClick={() => navigate("/signup")}>
+                가입하기
+              </span>
             </div>
           </article>
         </section>

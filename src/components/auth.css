@@ -160,7 +160,8 @@ span {
 }
 
 /*가입페이지 이동버튼*/
-.login__register a {
+.login__register .auth__click {
+  cursor: pointer;
   color: #0095f6;
 }
 
