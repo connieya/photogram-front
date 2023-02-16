@@ -3,7 +3,7 @@ import React from "react";
 import "./header.css";
 import logo from "../../assets/logo.jpg";
 
-const Main = () => {
+const Header = () => {
   return (
     <div>
       <header className='header'>
@@ -36,4 +36,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Header;

@@ -2,7 +2,7 @@ import React from "react";
 
 import "./header.css";
 import { Route, Routes } from "react-router-dom";
-import Story from "./Story";
+import Story from "../Story";
 import logo from "../../assets/logo.jpg";
 
 const Main = () => {
