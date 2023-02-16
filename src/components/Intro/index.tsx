@@ -3,15 +3,23 @@ import "../auth.css";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/logo.jpg";
+import { SignInUser } from "../../backend/api";
 
 const Intro = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const signin = (e: any) => {
+  const signin = async (e: any) => {
     e.preventDefault();
-    console.log("로그인", username, password);
+    console.log("로그인 데이터", username, password);
+    const res = await SignInUser({
+      createPayload: {
+        username: username,
+        password: password,
+      },
+    });
+    console.log("로그인 !!!", res);
   };
 
   return (
