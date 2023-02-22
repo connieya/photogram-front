@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../auth.css";
 import { useNavigate } from "react-router-dom";
 
-import logo from "../../assets/logo.jpg";
-import { SignInUser } from "../../backend/api";
+import logo from "../../../assets/logo.jpg";
+import { SignInUser } from "../../../backend/api";
 
 const Intro = () => {
   const navigate = useNavigate();

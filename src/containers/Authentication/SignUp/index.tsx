@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../auth.css";
 
-import logo from "../../assets/logo.jpg";
+import logo from "../../../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
-import { SignUpUser } from "../../backend/api";
+import { SignUpUser } from "../../../backend/api";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");

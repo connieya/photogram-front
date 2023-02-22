@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./user.css";
+import { fetchUseProfile } from "../../../backend/api";
 
 const User = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [imageModal, setImageModal] = useState<boolean>(false);
+  const params = useParams();
+  console.log("userId", params.userId);
 
-  const popup = () => {};
+  const fetchData = async () => {
+    const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
+    console.log(res);
+  };
 
+  useEffect(() => {
+    // fetchData();
+  }, []);
   return (
     <>
       <section className='profile'>
         <div className='profileContainer'>
           <div className='profile-left'>
-            <div className='profile-img-wrap story-border'>
+            <div
+              className='profile-img-wrap story-border'
+              onClick={() => setImageModal(true)}
+            >
               <form id='userProfileImageForm'>
                 <input
                   type='file'
@@ -80,6 +94,14 @@ const User = () => {
           <button>회원정보 변경</button>
           <button>로그아웃</button>
           <button onClick={() => setIsModalOpen(false)}>취소</button>
+        </div>
+      </div>
+
+      <div className={imageModal ? "modal-image" : ""}>
+        <div className='modal'>
+          <p>프로필 사진 바꾸기</p>
+          <button>사진 업로드</button>
+          <button onClick={() => setImageModal(false)}>취소</button>
         </div>
       </div>
     </>

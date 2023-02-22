@@ -21,3 +21,19 @@ export function produceCreateAPI<entityCreateProp, returnEntityType>(
     }
   };
 }
+
+export function produceReadAPI<returnEntityType>(apiPath: string) {
+  return async function ({
+    id,
+  }: {
+    id: number;
+  }): Promise<{ entity: returnEntityType }> {
+    try {
+      const res: any = await client.get(`${apiPath}/${id}`);
+      return { entity: res.data };
+    } catch (error: any) {
+      console.log("error =>", error);
+      throw error;
+    }
+  };
+}

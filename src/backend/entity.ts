@@ -15,3 +15,18 @@ export interface SignUpResponse {
   message: string;
   data: object;
 }
+
+export interface User {
+  usermame: string;
+  bio: string;
+  profileImageUrl: string;
+}
+
+export interface UserProfile {
+  pageOwner: boolean;
+  imageCount: number;
+  subscribeState: boolean;
+  subscribeCount: number;
+  subscribedCount: number;
+  user: User;
+}
