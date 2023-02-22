@@ -22,6 +22,12 @@ const Intro = () => {
       })
     ).entity;
     console.log("로그인 !!!", res);
+    if (res.code === 1) {
+      console.log(res.data.accessToken);
+      sessionStorage.setItem("access_token", res.data.accessToken);
+      alert(res.message);
+      navigate("/story");
+    }
   };
 
   return (

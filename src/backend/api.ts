@@ -1,7 +1,14 @@
 import { produceCreateAPI, produceReadAPI } from "./apiUtils";
-import { SignInRequest, SignUpRequest, SignUpResponse } from "./entity";
+import {
+  SignInRequest,
+  SignInResponse,
+  SignUpRequest,
+  SignUpResponse,
+} from "./entity";
 
-export const SignInUser = produceCreateAPI<SignInRequest, {}>("auth/signin");
+export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
+  "auth/signin"
+);
 
 export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"

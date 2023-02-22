@@ -32,7 +32,7 @@ const SignUp = () => {
       setPassword("");
       setEmail("");
       setNickname("");
-      navigate("/intro");
+      navigate("/signin");
     } else {
       alert(res.message);
     }
@@ -92,7 +92,7 @@ const SignUp = () => {
 
             <div className='login__register'>
               <span>계정이 있으신가요?</span>
-              <span className='auth__click' onClick={() => navigate("/intro")}>
+              <span className='auth__click' onClick={() => navigate("/signin")}>
                 로그인
               </span>
             </div>

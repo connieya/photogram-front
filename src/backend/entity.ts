@@ -16,6 +16,19 @@ export interface SignUpResponse {
   data: object;
 }
 
+export interface TokenDto {
+  accessToken: string;
+  grantType: string;
+  refreshToken: string;
+  accessTokenExpiresIn: number;
+}
+
+export interface SignInResponse {
+  code: number;
+  message: string;
+  data: TokenDto;
+}
+
 export interface User {
   usermame: string;
   bio: string;
