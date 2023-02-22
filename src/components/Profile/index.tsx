@@ -1,75 +1,132 @@
 import React from "react";
+import "./profile.css";
 
 const Profile = () => {
   return (
     <>
-      <section className='profile'>
-        <div className='profileContainer'>
-          <div className='profile-left'>
-            <div className='profile-img-wrap story-border'>
-              <form id='userProfileImageForm'>
-                <input
-                  type='file'
-                  name='profileImageFile'
-                  style={{ display: "none" }}
-                />
-              </form>
-              <img
-                className='profile-image'
-                src=''
-                alt='프사'
-                id='userProfileImage'
-              />
-            </div>
-          </div>
-          <div className='profile-right'>
-            <div className='name-group'>
-              <h2>코니</h2>
-              <button className='cta'>사진등록</button>
-              <button className='cta'>팔로우 하기</button>
-              <button className='modi'>
-                <i className='fas fa-cog'></i>
-              </button>
-            </div>
-            <div className='subscribe'>
-              <ul>
-                <li>
-                  게시물 <span>2</span>
-                </li>
-                <li>
-                  팔로워 <span>5</span>
-                </li>
-                <li>
-                  팔로잉 <span>4</span>
-                </li>
-              </ul>
-            </div>
-            <div className='state'>
-              <h4></h4>
-              <h4></h4>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id='tab-content'>
-        <div className='profileContainer'>
-          <div id='tab-1-content' className='tab-content-item show'>
-            <div className='tab-1-content-inner'>
-              <div className='img-box'>
-                <a href='/'>
-                  <img src='/' />
-                </a>
-                <div className='comment'>
-                  <a href='#' className=''>
-                    <i className='fas fa-heart'></i>
-                    <span>6</span>
-                  </a>
-                </div>
+      <main className='main'>
+        <section className='setting-container'>
+          <article className='setting__content'>
+            <div className='content-item__01'>
+              <div className='item__img'>
+                <img src='#' />
+              </div>
+              <div className='item__username'>
+                <h2>코니</h2>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+
+            <form id='profileUpdate' onSubmit={() => {}}>
+              <div className='content-item__02'>
+                <div className='item__title'>닉네임</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='name'
+                    placeholder='이름'
+                    value='${principal.user.nickname}'
+                    required
+                  />
+                </div>
+              </div>
+              <div className='content-item__03'>
+                <div className='item__title'>아이디</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='username'
+                    placeholder='아이디'
+                    value='${principal.user.username}'
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className='content-item__04'>
+                <div className='item__title'>패스워드</div>
+                <div className='item__input'>
+                  <input
+                    type='password'
+                    name='password'
+                    placeholder='패스워드'
+                    required
+                  />
+                </div>
+              </div>
+              <div className='content-item__05'>
+                <div className='item__title'>웹사이트</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='website'
+                    placeholder='웹 사이트'
+                    value='${principal.user.website}'
+                  />
+                </div>
+              </div>
+              <div className='content-item__06'>
+                <div className='item__title'>소개</div>
+                <div className='item__input'>
+                  <textarea name='bio' id='' rows={3}>
+                    개발자
+                  </textarea>
+                </div>
+              </div>
+              <div className='content-item__07'>
+                <div className='item__title'></div>
+                <div className='item__input'>
+                  <span>
+                    <b>개인정보</b>
+                  </span>{" "}
+                  <span>
+                    비즈니스나 반려동물 등에 사용된 계정인 경우에도 회원님의
+                    개인 정보를 입력하세요. 공개 프로필에는 포함되지 않습니다.
+                  </span>
+                </div>
+              </div>
+              <div className='content-item__08'>
+                <div className='item__title'>이메일</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='email'
+                    placeholder='이메일'
+                    value='${principal.user.email}'
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className='content-item__09'>
+                <div className='item__title'>전회번호</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='phone'
+                    placeholder='전화번호'
+                    value='${principal.user.phone}'
+                  />
+                </div>
+              </div>
+              <div className='content-item__10'>
+                <div className='item__title'>성별</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='gender'
+                    value='${principal.user.gender}'
+                  />
+                </div>
+              </div>
+
+              <div className='content-item__11'>
+                <div className='item__title'></div>
+                <div className='item__input'>
+                  <button>제출</button>
+                </div>
+              </div>
+            </form>
+          </article>
+        </section>
+      </main>
     </>
   );
 };

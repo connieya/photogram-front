@@ -13,12 +13,14 @@ const Intro = () => {
   const signin = async (e: any) => {
     e.preventDefault();
     console.log("로그인 데이터", username, password);
-    const res = await SignInUser({
-      createPayload: {
-        username: username,
-        password: password,
-      },
-    });
+    const res = (
+      await SignInUser({
+        createPayload: {
+          username: username,
+          password: password,
+        },
+      })
+    ).entity;
     console.log("로그인 !!!", res);
   };
 
