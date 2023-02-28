@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
 import { fetchUseProfile, followUser } from "../../../backend/api";
-import {
-  UserProfile,
-  UserInfo,
-  UserProfileResponse,
-} from "../../../backend/entity";
+import { UserProfile, UserInfo } from "../../../backend/entity";
 
 const initialUser = {
   pageOwner: false,
@@ -86,7 +82,9 @@ const User = () => {
             <div className='name-group'>
               <h2>{userInfo?.user.nickname}</h2>
               {userInfo?.pageOwner ? (
-                <button className='cta'>사진등록</button>
+                <button className='cta' onClick={() => navigate("/upload")}>
+                  사진등록
+                </button>
               ) : userInfo?.subscribeState ? (
                 <button className='cta blue' onClick={unfollow}>
                   팔로우 취소
@@ -141,7 +139,7 @@ const User = () => {
         </div>
       </section>
       <div className={isModalOpen ? "modal-info" : ""}>
-        <div className='modal'>
+        <div className={isModalOpen ? "modal" : ""}>
           <button>회원정보 변경</button>
           <button onClick={logout}>로그아웃</button>
           <button onClick={() => setIsModalOpen(false)}>취소</button>
@@ -149,7 +147,7 @@ const User = () => {
       </div>
 
       <div className={imageModal ? "modal-image" : ""}>
-        <div className='modal'>
+        <div className={imageModal ? "modal" : ""}>
           <p>프로필 사진 바꾸기</p>
           <button>사진 업로드</button>
           <button onClick={() => setImageModal(false)}>취소</button>
