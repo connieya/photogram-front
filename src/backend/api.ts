@@ -4,14 +4,16 @@ import {
   SignInResponse,
   SignUpRequest,
   SignUpResponse,
+  UserProfile,
+  UserProfileResponse,
 } from "./entity";
 
 export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
-  "auth/signin"
+  "auth/login"
 );
 
 export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"
 );
 
-export const fetchUseProfile = produceReadAPI<{}>("api/user");
+export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");

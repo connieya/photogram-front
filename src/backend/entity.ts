@@ -29,10 +29,13 @@ export interface SignInResponse {
   data: TokenDto;
 }
 
-export interface User {
-  usermame: string;
-  bio: string;
-  profileImageUrl: string;
+export class UserInfo {
+  id: number = 0;
+  usermame: string = "cony";
+  nickname: string = "코니";
+  website: string = "a";
+  bio: string = "a";
+  profileImageUrl: string = "a";
 }
 
 export interface UserProfile {
@@ -41,5 +44,19 @@ export interface UserProfile {
   subscribeState: boolean;
   subscribeCount: number;
   subscribedCount: number;
-  user: User;
+  user: UserInfo;
+}
+
+export interface UserProfileResponse {
+  code: number;
+  message: string;
+  data: UserProfile;
+}
+
+export function authHeader() {
+  const user = sessionStorage.getItem("access_token");
+  if (user) {
+    return { Authorization: "Bearer " + user };
+  }
+  return {};
 }

@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.css";
 const Story = () => {
+  useEffect(() => {
+    console.log("@@", sessionStorage.getItem("access_token"));
+  }, []);
+
   return (
     <main className='main'>
       <section className='container'>

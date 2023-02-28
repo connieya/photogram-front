@@ -1,22 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
 import { fetchUseProfile } from "../../../backend/api";
+import {
+  UserProfile,
+  UserInfo,
+  UserProfileResponse,
+} from "../../../backend/entity";
+
+const initialUser = {
+  pageOwner: false,
+  imageCount: 0,
+  subscribeState: false,
+  subscribeCount: 0,
+  subscribedCount: 0,
+  user: UserInfo,
+};
 
 const User = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [imageModal, setImageModal] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<UserProfile>();
   const params = useParams();
   console.log("userId", params.userId);
 
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
-    console.log(res);
+    if (res.code === 1) {
+      console.log("!21212", res);
+      setUserInfo(res.data);
+    } else {
+      alert(res.message);
+      navigate("/signin");
+    }
   };
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
+
+  const logout = () => {
+    sessionStorage.removeItem("access_token");
+    navigate("/signin");
+  };
   return (
     <>
       <section className='profile'>
@@ -43,9 +70,13 @@ const User = () => {
           </div>
           <div className='profile-right'>
             <div className='name-group'>
-              <h2>코니</h2>
-              <button className='cta'>사진등록</button>
-              <button className='cta'>팔로우 하기</button>
+              <h2>{userInfo?.user.nickname}</h2>
+              {userInfo?.pageOwner ? (
+                <button className='cta'>사진등록</button>
+              ) : (
+                <button className='cta'>팔로우 하기</button>
+              )}
+
               <button className='modi' onClick={() => setIsModalOpen(true)}>
                 <i className='fas fa-cog'></i>
               </button>
@@ -53,19 +84,19 @@ const User = () => {
             <div className='subscribe'>
               <ul>
                 <li>
-                  게시물 <span>2</span>
+                  게시물 <span>{userInfo?.imageCount}</span>
                 </li>
                 <li>
-                  팔로워 <span>5</span>
+                  팔로워 <span>{userInfo?.subscribedCount}</span>
                 </li>
                 <li>
-                  팔로잉 <span>4</span>
+                  팔로잉 <span>{userInfo?.subscribeCount}</span>
                 </li>
               </ul>
             </div>
             <div className='state'>
-              <h4></h4>
-              <h4></h4>
+              <h4>{userInfo?.user.bio}</h4>
+              <h4>{userInfo?.user.website}</h4>
             </div>
           </div>
         </div>
@@ -92,7 +123,7 @@ const User = () => {
       <div className={isModalOpen ? "modal-info" : ""}>
         <div className='modal'>
           <button>회원정보 변경</button>
-          <button>로그아웃</button>
+          <button onClick={logout}>로그아웃</button>
           <button onClick={() => setIsModalOpen(false)}>취소</button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { client } from "./axios";
+import { authHeader } from "./entity";
 
 interface CreateProps<entityCreateProp> {
   createPayload: entityCreateProp;
@@ -29,11 +30,13 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
     id: number;
   }): Promise<{ entity: returnEntityType }> {
     try {
-      const res: any = await client.get(`${apiPath}/${id}`);
+      const res: any = await client.get(`${apiPath}/${id}`, {
+        headers: authHeader(),
+      });
       return { entity: res.data };
     } catch (error: any) {
-      console.log("error =>", error);
-      throw error;
+      console.log("error =>", error.response.data);
+      return { entity: error.response.data };
     }
   };
 }
