@@ -1,10 +1,10 @@
-import { produceCreateAPI, produceReadAPI } from "./apiUtils";
+import { produceCreateAPI, produceQueryAPI, produceReadAPI } from "./apiUtils";
 import {
+  FollowResponse,
   SignInRequest,
   SignInResponse,
   SignUpRequest,
   SignUpResponse,
-  UserProfile,
   UserProfileResponse,
 } from "./entity";
 
@@ -17,3 +17,5 @@ export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
 );
 
 export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
+
+export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");

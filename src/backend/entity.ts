@@ -29,6 +29,18 @@ export interface SignInResponse {
   data: TokenDto;
 }
 
+export interface FollowResponse {
+  code: number;
+  message: string;
+  data: TokenDto;
+}
+
+export interface UnfollowResponse {
+  code: number;
+  message: string;
+  data: TokenDto;
+}
+
 export class UserInfo {
   id: number = 0;
   usermame: string = "cony";
@@ -55,6 +67,7 @@ export interface UserProfileResponse {
 
 export function authHeader() {
   const user = sessionStorage.getItem("access_token");
+  console.log("세션 토큰 ", user);
   if (user) {
     return { Authorization: "Bearer " + user };
   }

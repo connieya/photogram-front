@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
-import { fetchUseProfile } from "../../../backend/api";
+import { fetchUseProfile, followUser } from "../../../backend/api";
 import {
   UserProfile,
   UserInfo,
@@ -40,6 +40,20 @@ const User = () => {
     fetchData();
   }, []);
 
+  const follow = async () => {
+    const res = (await followUser({ id: userInfo?.user.id })).entity;
+    console.log("팔로우 =>", res);
+    if (res.code === 1) {
+      alert(res.message);
+      window.location.reload();
+    } else {
+      alert(res.message);
+      navigate("/signin");
+    }
+  };
+
+  const unfollow = async () => {};
+
   const logout = () => {
     sessionStorage.removeItem("access_token");
     navigate("/signin");
@@ -73,8 +87,14 @@ const User = () => {
               <h2>{userInfo?.user.nickname}</h2>
               {userInfo?.pageOwner ? (
                 <button className='cta'>사진등록</button>
+              ) : userInfo?.subscribeState ? (
+                <button className='cta blue' onClick={unfollow}>
+                  팔로우 취소
+                </button>
               ) : (
-                <button className='cta'>팔로우 하기</button>
+                <button className='cta' onClick={follow}>
+                  팔로우 하기
+                </button>
               )}
 
               <button className='modi' onClick={() => setIsModalOpen(true)}>

@@ -23,6 +23,24 @@ export function produceCreateAPI<entityCreateProp, returnEntityType>(
   };
 }
 
+export function produceQueryAPI<returnEntityType>(apiPath: string) {
+  return async function ({
+    id,
+  }: {
+    id: number | undefined;
+  }): Promise<{ entity: returnEntityType }> {
+    try {
+      const res: any = await client.post(`${apiPath}/${id}`, "", {
+        headers: authHeader(),
+      });
+      return { entity: res.data };
+    } catch (error: any) {
+      console.log("error =>", error.response.data);
+      return { entity: error.response.data };
+    }
+  };
+}
+
 export function produceReadAPI<returnEntityType>(apiPath: string) {
   return async function ({
     id,
