@@ -1,4 +1,9 @@
-import { produceCreateAPI, produceQueryAPI, produceReadAPI } from "./apiUtils";
+import {
+  produceCreateAPI,
+  produceDeleteAPI,
+  produceQueryAPI,
+  produceReadAPI,
+} from "./apiUtils";
 import {
   FollowResponse,
   SignInRequest,
@@ -9,7 +14,7 @@ import {
 } from "./entity";
 
 export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
-  "auth/login"
+  "auth/signin"
 );
 
 export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
@@ -19,3 +24,5 @@ export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
 export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
 
 export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
+
+export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");

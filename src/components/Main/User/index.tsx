@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
-import { fetchUseProfile, followUser } from "../../../backend/api";
+import {
+  fetchUseProfile,
+  followUser,
+  unFollowUser,
+} from "../../../backend/api";
 import { UserProfile, UserInfo } from "../../../backend/entity";
 
 const initialUser = {
@@ -48,7 +52,14 @@ const User = () => {
     }
   };
 
-  const unfollow = async () => {};
+  const unfollow = async () => {
+    const res = (await unFollowUser({ id: userInfo?.user.id })).entity;
+    console.log("팔로우 취소 =>", res);
+    if (res.code === 1) {
+      alert(res.message);
+      window.location.reload();
+    }
+  };
 
   const logout = () => {
     sessionStorage.removeItem("access_token");

@@ -58,3 +58,20 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
     }
   };
 }
+
+export function produceDeleteAPI<returnEntityType>(apiPath: string) {
+  return async function ({
+    id,
+  }: {
+    id: number | undefined;
+  }): Promise<{ entity: returnEntityType }> {
+    try {
+      const res: any = await client.delete(`${apiPath}/${id}`, {
+        headers: authHeader(),
+      });
+      return { entity: res.data };
+    } catch (error) {
+      throw error;
+    }
+  };
+}
