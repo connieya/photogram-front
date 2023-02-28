@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 
 import basic from "../../../assets/basic.jpg";
+import logo from "../../../assets/logo.jpg";
 
 const Upload = () => {
+  const [imagePreview, setImagePreview] = useState(basic);
+
+  const handleImageChange = (event: any) => {
+    const reader = new FileReader();
+    const file = event.target.files[0];
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div>
       <main className='uploadContainer'>
         <section className='upload'>
           <div className='upload-top'>
             <a href='home.html' className=''>
-              <img src='/images/logo.jpg' alt='' />
+              <img src={logo} alt='' />
             </a>
             <p>사진 업로드</p>
           </div>
           <form className='upload-form' method='post' action='/image'>
-            <input type='file' name='file' />
+            <input type='file' name='file' onChange={handleImageChange} />
             <div className='upload-img'>
-              <img src={basic} alt='' id='imageUploadPreview' />
+              <img src={imagePreview} alt='' id='imageUploadPreview' />
             </div>
 
             <div className='upload-form-detail'>
