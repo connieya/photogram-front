@@ -14,6 +14,10 @@
   border: 1px solid #dbdbdb;
 }
 
+#imageUploadPreview {
+  width: 90%;
+}
+
 .upload .upload-top {
   text-align: center;
 }

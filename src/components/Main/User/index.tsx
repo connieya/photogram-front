@@ -6,16 +6,7 @@ import {
   followUser,
   unFollowUser,
 } from "../../../backend/api";
-import { UserProfile, UserInfo } from "../../../backend/entity";
-
-const initialUser = {
-  pageOwner: false,
-  imageCount: 0,
-  subscribeState: false,
-  subscribeCount: 0,
-  subscribedCount: 0,
-  user: UserInfo,
-};
+import { UserProfile } from "../../../backend/entity";
 
 const User = () => {
   const navigate = useNavigate();
@@ -28,7 +19,6 @@ const User = () => {
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
     if (res.code === 1) {
-      console.log("!21212", res);
       setUserInfo(res.data);
     } else {
       alert(res.message);
@@ -37,7 +27,13 @@ const User = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    const token = sessionStorage.getItem("access_token");
+    if (token === null) {
+      alert("로그인이 필요합니다.");
+      navigate("/signin");
+    } else {
+      fetchData();
+    }
   }, []);
 
   const follow = async () => {

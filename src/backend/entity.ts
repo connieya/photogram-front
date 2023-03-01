@@ -41,13 +41,13 @@ export interface UnfollowResponse {
   data: TokenDto;
 }
 
-export class UserInfo {
-  id: number = 0;
-  usermame: string = "cony";
-  nickname: string = "코니";
-  website: string = "a";
-  bio: string = "a";
-  profileImageUrl: string = "a";
+export interface UserInfo {
+  id: number;
+  usermame: string;
+  nickname: string;
+  website: string;
+  bio: string;
+  profileImageUrl: string;
 }
 
 export interface UserProfile {
@@ -59,6 +59,15 @@ export interface UserProfile {
   user: UserInfo;
 }
 
+// export interface ImageUploadRequest {
+//   file: File | undefined;
+//   caption: string;
+// }
+
+export interface ImageUploadRequest {
+  formData: FormData;
+}
+
 export interface UserProfileResponse {
   code: number;
   message: string;
@@ -67,9 +76,20 @@ export interface UserProfileResponse {
 
 export function authHeader() {
   const user = sessionStorage.getItem("access_token");
-  console.log("세션 토큰 ", user);
   if (user) {
     return { Authorization: "Bearer " + user };
+  }
+  return {};
+}
+
+export function uploadHeader() {
+  const user = sessionStorage.getItem("access_token");
+  console.log("세션 토큰 ", user);
+  if (user) {
+    return {
+      Authorization: "Bearer " + user,
+      "Content-Type": "multipart/form-data",
+    };
   }
   return {};
 }
