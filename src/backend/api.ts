@@ -1,6 +1,7 @@
 import {
   produceCreateAPI,
   produceDeleteAPI,
+  produceProfileAPI,
   produceQueryAPI,
   produceReadAPI,
   produceUploadAPI,
@@ -29,6 +30,8 @@ export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
 export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
 
 export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");
+
+export const uploadProfileImage = produceProfileAPI<{}, {}>("api/user/image");
 
 export const uploadFeed = produceUploadAPI<
   ImageUploadRequest,
