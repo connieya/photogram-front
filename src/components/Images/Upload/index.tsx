@@ -7,15 +7,13 @@ import { uploadFeed } from "../../../backend/api";
 
 const Upload = () => {
   const [imagePreview, setImagePreview] = useState(basic);
-  const [file, setFile] = useState<string | Blob>("");
+  const [file, setFile] = useState<string>("");
   const [caption, setCaption] = useState<string>("");
 
   const handleImageChange = (event: any) => {
     const reader = new FileReader();
     const file = event.target.files[0];
     setFile(file);
-    console.log("file", file);
-    console.log(typeof file);
     reader.onloadend = () => {
       setImagePreview(reader.result);
     };
@@ -24,19 +22,19 @@ const Upload = () => {
 
   const uploadImage = async (event: any) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("caption", caption);
-    console.log("file = > ", file);
-    console.log("caption => ", caption);
-
-    const res = await uploadFeed({
-      createPayload: {
-        formData: formData,
-      },
-    });
+    const res = (
+      await uploadFeed({
+        createPayload: {
+          file: file,
+          caption: caption,
+        },
+      })
+    ).entity;
 
     console.log("이미지 업로드 ", res);
+    if (res.code === 1) {
+      alert(res.message);
+    }
   };
   return (
     <div>

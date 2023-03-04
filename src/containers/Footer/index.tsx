@@ -39,7 +39,7 @@ const Footer = () => {
             </li>
           </ul>
           <div className='copy'>
-            <p>© 2023 Photogram from Cony</p>
+            <p>© 2023 Photogram from Connieya</p>
           </div>
         </div>
       </footer>

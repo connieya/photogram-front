@@ -8,6 +8,7 @@ import {
 import {
   FollowResponse,
   ImageUploadRequest,
+  ImageUploadResponsee,
   SignInRequest,
   SignInResponse,
   SignUpRequest,
@@ -29,4 +30,7 @@ export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
 
 export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");
 
-export const uploadFeed = produceUploadAPI<ImageUploadRequest, {}>("api/image");
+export const uploadFeed = produceUploadAPI<
+  ImageUploadRequest,
+  ImageUploadResponsee
+>("api/image");

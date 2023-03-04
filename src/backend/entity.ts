@@ -59,14 +59,20 @@ export interface UserProfile {
   user: UserInfo;
 }
 
-// export interface ImageUploadRequest {
-//   file: File | undefined;
-//   caption: string;
-// }
-
 export interface ImageUploadRequest {
-  formData: FormData;
+  file: string;
+  caption: string;
 }
+
+export interface ImageUploadResponsee {
+  code: number;
+  message: string;
+  data: number;
+}
+
+// export interface ImageUploadRequest {
+//   formData: FormData;
+// }
 
 export interface UserProfileResponse {
   code: number;
