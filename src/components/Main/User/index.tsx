@@ -15,6 +15,7 @@ const User = () => {
   const [file, setFile] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [imageModal, setImageModal] = useState<boolean>(false);
+  const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const params = useParams();
 
@@ -27,6 +28,12 @@ const User = () => {
       navigate("/signin");
     }
   };
+
+  useEffect(() => {
+    console.log(userInfo?.user.profileImageUrl);
+    const url = `/images/${userInfo?.user.profileImageUrl}`;
+    setProfileUrl(url);
+  }, [userInfo]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("access_token");
@@ -68,7 +75,6 @@ const User = () => {
   };
 
   const handleImageChange = async (event: any) => {
-    console.log("dddddd");
     const reader = new FileReader();
     const file = event.target.files[0];
     setFile(file);
@@ -81,7 +87,6 @@ const User = () => {
     const res = await uploadProfileImage({
       createPayload: formData,
     });
-    console.log("file", file);
     console.log("프로필 변경", res);
   };
 
@@ -109,7 +114,7 @@ const User = () => {
               </form>
               <img
                 className='profile-image'
-                src=''
+                src={profileUrl}
                 alt='프사'
                 id='userProfileImage'
               />

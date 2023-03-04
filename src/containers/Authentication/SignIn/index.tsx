@@ -63,18 +63,18 @@ const Intro = () => {
                 <button type='submit'>로그인</button>
               </form>
 
-              <div className='login__horizon'>
+              {/* <div className='login__horizon'>
                 <div className='br'></div>
                 <div className='or'>또는</div>
                 <div className='br'></div>
-              </div>
+              </div> */}
 
-              <div className='login__facebook'>
+              {/* <div className='login__facebook'>
                 <button>
                   <i className='fab fa-facebook-square'></i>
                   <span>Facebook으로 로그인</span>
                 </button>
-              </div>
+              </div> */}
             </div>
 
             <div className='login__register'>
