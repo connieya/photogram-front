@@ -22,6 +22,7 @@ const User = () => {
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
     if (res.code === 1) {
+      console.log(res.data);
       setUserInfo(res.data);
     } else {
       alert(res.message);
@@ -30,9 +31,10 @@ const User = () => {
   };
 
   useEffect(() => {
-    console.log(userInfo?.user.profileImageUrl);
-    const url = `/images/${userInfo?.user.profileImageUrl}`;
-    setProfileUrl(url);
+    if (userInfo?.user.profileImageUrl) {
+      const url = `/images/${userInfo?.user.profileImageUrl}`;
+      setProfileUrl(url);
+    }
   }, [userInfo]);
 
   useEffect(() => {
@@ -165,17 +167,19 @@ const User = () => {
         <div className='profileContainer'>
           <div id='tab-1-content' className='tab-content-item show'>
             <div className='tab-1-content-inner'>
-              <div className='img-box'>
-                <a href='/'>
-                  <img src='/' />
-                </a>
-                <div className='comment'>
-                  <a href='#' className=''>
-                    <i className='fas fa-heart'></i>
-                    <span>6</span>
+              {userInfo?.user.images.map((image) => (
+                <div className='img-box'>
+                  <a href='/'>
+                    <img src={`/images/${image.postImageUrl}`} />
                   </a>
+                  <div className='comment'>
+                    <a href='#' className=''>
+                      <i className='fas fa-heart'></i>
+                      <span>6</span>
+                    </a>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

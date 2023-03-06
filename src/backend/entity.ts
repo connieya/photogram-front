@@ -41,6 +41,12 @@ export interface UnfollowResponse {
   data: TokenDto;
 }
 
+export interface image {
+  id: number;
+  caption: string;
+  postImageUrl: string;
+}
+
 export interface UserInfo {
   id: number;
   usermame: string;
@@ -48,6 +54,7 @@ export interface UserInfo {
   website: string;
   bio: string;
   profileImageUrl: string;
+  images: image[];
 }
 
 export interface UserProfile {

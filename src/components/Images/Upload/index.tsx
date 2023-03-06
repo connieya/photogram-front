@@ -4,8 +4,10 @@ import "./index.css";
 import basic from "../../../assets/basic.jpg";
 import logo from "../../../assets/logo.jpg";
 import { uploadFeed } from "../../../backend/api";
+import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
+  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(basic);
   const [file, setFile] = useState<string>("");
   const [caption, setCaption] = useState<string>("");
@@ -34,6 +36,7 @@ const Upload = () => {
     console.log("이미지 업로드 ", res);
     if (res.code === 1) {
       alert(res.message);
+      navigate(`/user/${res.data}`);
     }
   };
   return (

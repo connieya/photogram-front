@@ -75,14 +75,15 @@
   display: flex;
 }
 .profile .profile-right .subscribe ul li {
+  font-weight: 50;
   margin-right: 18px;
 }
 .profile .profile-right .subscribe ul li a {
   font-size: 16px;
   color: #262626;
 }
-.profile .profile-right .subscribe ul li a span {
-  font-weight: bold;
+.profile .profile-right .subscribe span {
+  font-weight: 650;
   margin-left: 4px;
 }
 .profile .profile-right .state h4 {
