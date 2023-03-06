@@ -129,7 +129,7 @@ const User = () => {
               <h2>{userInfo?.user.nickname}</h2>
               {userInfo?.pageOwner ? (
                 <button className='cta' onClick={() => navigate("/upload")}>
-                  사진등록
+                  게시물 등록
                 </button>
               ) : userInfo?.subscribeState ? (
                 <button className='cta blue' onClick={unfollow}>

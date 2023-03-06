@@ -47,7 +47,7 @@ const Upload = () => {
             <a href='home.html' className=''>
               <img src={logo} alt='' />
             </a>
-            <p>사진 업로드</p>
+            <p>게시물 업로드</p>
           </div>
           <form onSubmit={uploadImage} className='upload-form'>
             <input type='file' name='file' onChange={handleImageChange} />
