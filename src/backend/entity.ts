@@ -87,6 +87,12 @@ export interface UserProfileResponse {
   data: UserProfile;
 }
 
+export interface UserProfileImageResponse {
+  code: number;
+  message: string;
+  data: null;
+}
+
 export function authHeader() {
   const user = sessionStorage.getItem("access_token");
   if (user) {

@@ -99,6 +99,34 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
   };
 }
 
+export function produceGetAPI<returnEntityType>(apiPath: string) {
+  return async function (): Promise<{ entity: returnEntityType }> {
+    try {
+      const res: any = await client.get(`/${apiPath}`, {
+        headers: authHeader(),
+      });
+      return { entity: res.data };
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function producePageAPI<returnEntityType>(apiPath: string) {
+  return async function ({
+    page,
+  }: {
+    page: number;
+  }): Promise<{ entity: returnEntityType }> {
+    try {
+      const res: any = await client.get(`/${apiPath}?query=${page}`);
+      return { entity: res.data };
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
 export function produceDeleteAPI<returnEntityType>(apiPath: string) {
   return async function ({
     id,

@@ -1,8 +1,23 @@
 import React, { useEffect } from "react";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
+import { fetchStorys } from "../../../backend/api";
 const Story = () => {
+  const navigate = useNavigate();
+
+  const fetch = async () => {
+    const res = (await fetchStorys()).entity;
+    console.log("게시글 리스트", res);
+  };
+
   useEffect(() => {
-    console.log("@@", sessionStorage.getItem("access_token"));
+    const token = sessionStorage.getItem("access_token");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      navigate("/signin");
+      return;
+    }
+    fetch();
   }, []);
 
   return (

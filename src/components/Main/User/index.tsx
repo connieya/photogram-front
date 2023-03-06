@@ -77,19 +77,21 @@ const User = () => {
   };
 
   const handleImageChange = async (event: any) => {
-    const reader = new FileReader();
     const file = event.target.files[0];
     setFile(file);
-    reader.onloadend = () => {
-      // setImagePreview(reader.result);
-    };
     const formData = new FormData();
-    reader.readAsDataURL(file);
     formData.append("file", file);
-    const res = await uploadProfileImage({
-      createPayload: formData,
-    });
+    const res = (
+      await uploadProfileImage({
+        createPayload: formData,
+      })
+    ).entity;
     console.log("프로필 변경", res);
+    if (res.code === 1) {
+      setImageModal(false);
+      navigate(`/user/${userInfo?.user.id}`);
+      window.location.reload();
+    }
   };
 
   const logout = () => {

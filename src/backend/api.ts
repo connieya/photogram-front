@@ -1,6 +1,7 @@
 import {
   produceCreateAPI,
   produceDeleteAPI,
+  produceGetAPI,
   produceProfileAPI,
   produceQueryAPI,
   produceReadAPI,
@@ -14,6 +15,7 @@ import {
   SignInResponse,
   SignUpRequest,
   SignUpResponse,
+  UserProfileImageResponse,
   UserProfileResponse,
 } from "./entity";
 
@@ -25,13 +27,18 @@ export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"
 );
 
+export const fetchStorys = produceGetAPI<{}>("api/image");
+
 export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
 
 export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
 
 export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");
 
-export const uploadProfileImage = produceProfileAPI<{}, {}>("api/user/image");
+export const uploadProfileImage = produceProfileAPI<
+  {},
+  UserProfileImageResponse
+>("api/user/image");
 
 export const uploadFeed = produceUploadAPI<
   ImageUploadRequest,
