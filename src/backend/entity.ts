@@ -54,11 +54,12 @@ export interface image {
 
 export interface UserInfo {
   id: number;
-  usermame: string;
+  username: string;
   nickname: string;
   website: string;
   bio: string;
   profileImageUrl: string;
+  email: string;
   images: image[];
 }
 
@@ -90,6 +91,12 @@ export interface UserProfileResponse {
   code: number;
   message: string;
   data: UserProfile;
+}
+
+export interface UserProfileUpdateResponse {
+  code: number;
+  message: string;
+  data: UserInfo;
 }
 
 export interface UserProfileImageResponse {

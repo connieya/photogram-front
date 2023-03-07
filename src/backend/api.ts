@@ -17,6 +17,7 @@ import {
   SignUpResponse,
   UserProfileImageResponse,
   UserProfileResponse,
+  UserProfileUpdateResponse,
 } from "./entity";
 
 export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
@@ -30,6 +31,9 @@ export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
 export const fetchStorys = produceGetAPI<{}>("api/image");
 
 export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
+
+export const fetchUserProfileUpdate =
+  produceGetAPI<UserProfileUpdateResponse>("api/user/profile");
 
 export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
 

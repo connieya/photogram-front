@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./profile.css";
+import { UserInfo } from "../../../backend/entity";
+import { fetchUserProfileUpdate } from "../../../backend/api";
 
 const Profile = () => {
+  const [user, setUser] = useState<UserInfo>();
+
+  const fetchUser = async () => {
+    const res = (await fetchUserProfileUpdate()).entity;
+    if (res.code === 1) {
+      console.log(res.data);
+      setUser(res.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <>
       <main className='main'>
@@ -9,10 +25,16 @@ const Profile = () => {
           <article className='setting__content'>
             <div className='content-item__01'>
               <div className='item__img'>
-                <img src='#' />
+                <img
+                  src={
+                    user?.profileImageUrl
+                      ? `/images/${user?.profileImageUrl}`
+                      : "/images/basic.jpg"
+                  }
+                />
               </div>
               <div className='item__username'>
-                <h2>코니</h2>
+                <h2>{user?.nickname}</h2>
               </div>
             </div>
 
@@ -24,7 +46,7 @@ const Profile = () => {
                     type='text'
                     name='name'
                     placeholder='이름'
-                    value='${principal.user.nickname}'
+                    value={user?.nickname}
                     required
                   />
                 </div>
@@ -36,22 +58,12 @@ const Profile = () => {
                     type='text'
                     name='username'
                     placeholder='아이디'
-                    value='${principal.user.username}'
+                    value={user?.username}
                     readOnly
                   />
                 </div>
               </div>
-              <div className='content-item__04'>
-                <div className='item__title'>패스워드</div>
-                <div className='item__input'>
-                  <input
-                    type='password'
-                    name='password'
-                    placeholder='패스워드'
-                    required
-                  />
-                </div>
-              </div>
+
               <div className='content-item__05'>
                 <div className='item__title'>웹사이트</div>
                 <div className='item__input'>
@@ -59,7 +71,7 @@ const Profile = () => {
                     type='text'
                     name='website'
                     placeholder='웹 사이트'
-                    value='${principal.user.website}'
+                    value={user?.website}
                   />
                 </div>
               </div>
@@ -67,8 +79,21 @@ const Profile = () => {
                 <div className='item__title'>소개</div>
                 <div className='item__input'>
                   <textarea name='bio' id='' rows={3}>
-                    개발자
+                    {user?.bio}
                   </textarea>
+                </div>
+              </div>
+
+              <div className='content-item__08'>
+                <div className='item__title'>이메일</div>
+                <div className='item__input'>
+                  <input
+                    type='text'
+                    name='email'
+                    placeholder='이메일'
+                    value={user?.email}
+                    readOnly
+                  />
                 </div>
               </div>
               <div className='content-item__07'>
@@ -83,40 +108,6 @@ const Profile = () => {
                   </span>
                 </div>
               </div>
-              <div className='content-item__08'>
-                <div className='item__title'>이메일</div>
-                <div className='item__input'>
-                  <input
-                    type='text'
-                    name='email'
-                    placeholder='이메일'
-                    value='${principal.user.email}'
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className='content-item__09'>
-                <div className='item__title'>전회번호</div>
-                <div className='item__input'>
-                  <input
-                    type='text'
-                    name='phone'
-                    placeholder='전화번호'
-                    value='${principal.user.phone}'
-                  />
-                </div>
-              </div>
-              <div className='content-item__10'>
-                <div className='item__title'>성별</div>
-                <div className='item__input'>
-                  <input
-                    type='text'
-                    name='gender'
-                    value='${principal.user.gender}'
-                  />
-                </div>
-              </div>
-
               <div className='content-item__11'>
                 <div className='item__title'></div>
                 <div className='item__input'>

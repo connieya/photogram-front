@@ -22,7 +22,6 @@ const User = () => {
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
     if (res.code === 1) {
-      console.log(res.data);
       setUserInfo(res.data);
     } else {
       alert(res.message);
@@ -49,7 +48,6 @@ const User = () => {
 
   const follow = async () => {
     const res = (await followUser({ id: userInfo?.user.id })).entity;
-    console.log("팔로우 =>", res);
     if (res.code === 1) {
       alert(res.message);
       window.location.reload();
@@ -61,7 +59,6 @@ const User = () => {
 
   const unfollow = async () => {
     const res = (await unFollowUser({ id: userInfo?.user.id })).entity;
-    console.log("팔로우 취소 =>", res);
     if (res.code === 1) {
       alert(res.message);
       window.location.reload();
@@ -86,7 +83,6 @@ const User = () => {
         createPayload: formData,
       })
     ).entity;
-    console.log("프로필 변경", res);
     if (res.code === 1) {
       setImageModal(false);
       navigate(`/user/${userInfo?.user.id}`);
@@ -188,7 +184,11 @@ const User = () => {
       </section>
       <div className={isModalOpen ? "modal-info" : "none"}>
         <div className={isModalOpen ? "modal" : "none"}>
-          <button>회원정보 변경</button>
+          <button
+            onClick={() => navigate(`/user/${userInfo?.user.id}/profile`)}
+          >
+            회원정보 변경
+          </button>
           <button onClick={logout}>로그아웃</button>
           <button onClick={() => setIsModalOpen(false)}>취소</button>
         </div>

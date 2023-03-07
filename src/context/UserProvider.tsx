@@ -3,11 +3,12 @@ import { UserInfo } from "../backend/entity";
 
 const userAuth = {
   id: 0,
-  usermame: "",
+  username: "",
   nickname: "",
   website: "",
   bio: "",
   profileImageUrl: "",
+  email: "",
   images: [],
 };
 
