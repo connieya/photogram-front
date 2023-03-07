@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import "./header.css";
 import logo from "../../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/UserProvider";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("헤더 =>", user);
+  }, []);
   return (
     <div>
       <header className='header'>
@@ -26,7 +32,7 @@ const Header = () => {
                 </a>
               </li>
               <li className='navi-item'>
-                <a onClick={() => navigate("/user/2")} href=''>
+                <a onClick={() => navigate(`/user/${user.id}`)} href=''>
                   <i className='far fa-user'></i>
                 </a>
               </li>

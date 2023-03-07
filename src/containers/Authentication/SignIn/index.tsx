@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../auth.css";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../../../assets/logo.jpg";
 import { SignInUser } from "../../../backend/api";
+import UserContext from "../../../context/UserProvider";
 
 const Intro = () => {
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -23,8 +25,9 @@ const Intro = () => {
     ).entity;
     console.log("로그인 !!!", res);
     if (res.code === 1) {
-      console.log(res.data.accessToken);
-      sessionStorage.setItem("access_token", res.data.accessToken);
+      console.log(res.data.tokenDto.accessToken);
+      sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
+      setUser(res.data.user);
       alert(res.message);
       navigate("/story");
     }

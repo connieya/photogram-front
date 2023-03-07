@@ -23,10 +23,15 @@ export interface TokenDto {
   accessTokenExpiresIn: number;
 }
 
+export interface UserAuth {
+  tokenDto: TokenDto;
+  user: UserInfo;
+}
+
 export interface SignInResponse {
   code: number;
   message: string;
-  data: TokenDto;
+  data: UserAuth;
 }
 
 export interface FollowResponse {
