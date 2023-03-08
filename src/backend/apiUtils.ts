@@ -42,7 +42,6 @@ export function produceProfileAPI<entityCreateProp, returnEntityType>(
   };
 }
 
-// 수정
 export function produceUpdateProfileAPI<entityCreateProp, returnEntityType>(
   apiPath: string
 ) {
@@ -52,7 +51,7 @@ export function produceUpdateProfileAPI<entityCreateProp, returnEntityType>(
     try {
       console.log("createPayload : ", createPayload);
       const res: any = await client.put(`/${apiPath}`, createPayload, {
-        headers: uploadHeader(),
+        headers: authHeader(),
       });
       return { entity: res.data };
     } catch (error: any) {

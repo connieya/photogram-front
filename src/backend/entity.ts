@@ -115,6 +115,12 @@ export interface FollowListResponse {
   data: FollowDto[];
 }
 
+export interface UserUpdateRequest {
+  nickname: string;
+  website: string;
+  bio: string;
+}
+
 export function authHeader() {
   const user = sessionStorage.getItem("access_token");
   if (user) {

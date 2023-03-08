@@ -5,6 +5,7 @@ import {
   produceProfileAPI,
   produceQueryAPI,
   produceReadAPI,
+  produceUpdateProfileAPI,
   produceUploadAPI,
 } from "./apiUtils";
 import {
@@ -19,6 +20,7 @@ import {
   UserProfileImageResponse,
   UserProfileResponse,
   UserProfileUpdateResponse,
+  UserUpdateRequest,
 } from "./entity";
 
 export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
@@ -49,6 +51,11 @@ export const uploadFeed = produceUploadAPI<
   ImageUploadRequest,
   ImageUploadResponsee
 >("api/image");
+
+export const updateProfile = produceUpdateProfileAPI<
+  UserUpdateRequest,
+  UserProfileUpdateResponse
+>("api/user");
 
 export const fetchFollower = produceReadAPI<FollowListResponse>("api/follower");
 export const fetchFollowing =

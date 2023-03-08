@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./profile.css";
 import { UserInfo } from "../../../backend/entity";
-import { fetchUserProfileUpdate } from "../../../backend/api";
+import { fetchUserProfileUpdate, updateProfile } from "../../../backend/api";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserInfo>();
   const [nickname, setNickname] = useState<string>("");
   const [bio, setBio] = useState<string>("");
@@ -24,7 +26,23 @@ const Profile = () => {
     fetchUser();
   }, []);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const res = (
+      await updateProfile({
+        createPayload: {
+          nickname: nickname,
+          website: website,
+          bio: bio,
+        },
+      })
+    ).entity;
+    if (res.code === 1) {
+      alert(res.message);
+      navigate(`/user/${user?.id}`);
+    }
+    console.log("res =>", res);
+  };
 
   return (
     <>
@@ -97,9 +115,8 @@ const Profile = () => {
                     id=''
                     rows={3}
                     onChange={(e) => setBio(e.target.value)}
-                  >
-                    {bio}
-                  </textarea>
+                    value={bio}
+                  ></textarea>
                 </div>
               </div>
 
