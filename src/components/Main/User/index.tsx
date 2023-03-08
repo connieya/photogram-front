@@ -18,6 +18,7 @@ const User = () => {
   const [imageModal, setImageModal] = useState<boolean>(false);
   const [subscribeModal, setSubscribeModal] = useState<boolean>(false);
   const [subscribedModal, setSubscribedModal] = useState<boolean>(false);
+  const [followState, setFollowState] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const [followerList, setFollowerList] = useState<FollowDto[]>();
@@ -27,6 +28,7 @@ const User = () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
     if (res.code === 1) {
       setUserInfo(res.data);
+      setFollowState(res.data.followState);
     } else {
       alert(res.message);
       navigate("/signin");
@@ -41,6 +43,10 @@ const User = () => {
   }, [userInfo]);
 
   useEffect(() => {
+    fetchData();
+  }, [followState]);
+
+  useEffect(() => {
     const token = sessionStorage.getItem("access_token");
     if (token === null) {
       alert("로그인이 필요합니다.");
@@ -50,22 +56,22 @@ const User = () => {
     }
   }, []);
 
-  const follow = async () => {
-    const res = (await followUser({ id: userInfo?.user.id })).entity;
+  const follow = async (id: number | undefined) => {
+    const res = (await followUser({ id: id })).entity;
     if (res.code === 1) {
+      setFollowState(true);
       alert(res.message);
-      window.location.reload();
     } else {
       alert(res.message);
       navigate("/signin");
     }
   };
 
-  const unfollow = async () => {
-    const res = (await unFollowUser({ id: userInfo?.user.id })).entity;
+  const unfollow = async (id: number | undefined) => {
+    const res = (await unFollowUser({ id: id })).entity;
     if (res.code === 1) {
+      setFollowState(false);
       alert(res.message);
-      window.location.reload();
     }
   };
 
@@ -141,12 +147,20 @@ const User = () => {
                 <button className='cta' onClick={() => navigate("/upload")}>
                   게시물 등록
                 </button>
-              ) : userInfo?.followState ? (
-                <button className='cta blue' onClick={unfollow}>
+              ) : followState ? (
+                <button
+                  className='cta blue'
+                  onClick={() => {
+                    unfollow(userInfo?.user.id);
+                  }}
+                >
                   팔로우 취소
                 </button>
               ) : (
-                <button className='cta' onClick={follow}>
+                <button
+                  className='cta'
+                  onClick={() => follow(userInfo?.user.id)}
+                >
                   팔로우 하기
                 </button>
               )}
@@ -259,11 +273,21 @@ const User = () => {
                 {!follower.equalUserState ? (
                   follower.followState ? (
                     <div className='subscribed__btn blue'>
-                      <button className='cta blue'>팔로우 취소</button>
+                      <button
+                        className='cta blue'
+                        onClick={() => unfollow(follower.id)}
+                      >
+                        팔로우 취소
+                      </button>
                     </div>
                   ) : (
                     <div className='subscribed__btn'>
-                      <button className='cta'>팔로우 하기</button>
+                      <button
+                        className='cta'
+                        onClick={() => follow(follower.id)}
+                      >
+                        팔로우 하기
+                      </button>
                     </div>
                   )
                 ) : (
