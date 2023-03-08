@@ -5,18 +5,26 @@ import { fetchUserProfileUpdate } from "../../../backend/api";
 
 const Profile = () => {
   const [user, setUser] = useState<UserInfo>();
+  const [nickname, setNickname] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
+  const [website, setWebsite] = useState<string>("");
 
   const fetchUser = async () => {
     const res = (await fetchUserProfileUpdate()).entity;
     if (res.code === 1) {
       console.log(res.data);
       setUser(res.data);
+      setNickname(res.data.nickname);
+      setBio(res.data.bio);
+      setWebsite(res.data.website);
     }
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const handleSubmit = () => {};
 
   return (
     <>
@@ -38,15 +46,18 @@ const Profile = () => {
               </div>
             </div>
 
-            <form id='profileUpdate' onSubmit={() => {}}>
+            <form id='profileUpdate' onSubmit={handleSubmit}>
               <div className='content-item__02'>
                 <div className='item__title'>닉네임</div>
                 <div className='item__input'>
                   <input
                     type='text'
                     name='name'
-                    placeholder='이름'
-                    value={user?.nickname}
+                    placeholder='닉네임'
+                    value={nickname}
+                    onChange={(e) => {
+                      setNickname(e.target.value);
+                    }}
                     required
                   />
                 </div>
@@ -71,15 +82,23 @@ const Profile = () => {
                     type='text'
                     name='website'
                     placeholder='웹 사이트'
-                    value={user?.website}
+                    value={website}
+                    onChange={(e) => {
+                      setWebsite(e.target.value);
+                    }}
                   />
                 </div>
               </div>
               <div className='content-item__06'>
                 <div className='item__title'>소개</div>
                 <div className='item__input'>
-                  <textarea name='bio' id='' rows={3}>
-                    {user?.bio}
+                  <textarea
+                    name='bio'
+                    id=''
+                    rows={3}
+                    onChange={(e) => setBio(e.target.value)}
+                  >
+                    {bio}
                   </textarea>
                 </div>
               </div>

@@ -15,6 +15,8 @@ const User = () => {
   const [file, setFile] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [imageModal, setImageModal] = useState<boolean>(false);
+  const [subscribeModal, setSubscribeModal] = useState<boolean>(false);
+  const [subscribedModal, setSubscribedModal] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const params = useParams();
@@ -147,10 +149,16 @@ const User = () => {
                   게시물 <span>{userInfo?.imageCount}</span>
                 </li>
                 <li>
-                  팔로워 <span>{userInfo?.subscribedCount}</span>
+                  팔로워{" "}
+                  <span onClick={() => setSubscribedModal(true)}>
+                    {userInfo?.subscribedCount}
+                  </span>
                 </li>
                 <li>
-                  팔로잉 <span>{userInfo?.subscribeCount}</span>
+                  팔로잉{" "}
+                  <span onClick={() => setSubscribeModal(true)}>
+                    {userInfo?.subscribeCount}
+                  </span>
                 </li>
               </ul>
             </div>
@@ -205,6 +213,29 @@ const User = () => {
             사진 업로드
           </button>
           <button onClick={() => setImageModal(false)}>취소</button>
+        </div>
+      </div>
+
+      <div className={subscribedModal ? "modal-subscribed" : "none"}>
+        <div className='subscribed'>
+          <div className='subscribed-header'>
+            <span>팔로워</span>
+            <button onClick={() => setSubscribedModal(false)}>
+              <i className='fas fa-times'></i>
+            </button>
+          </div>
+          <div className='subscribed-list' id='subscribedModalList'></div>
+        </div>
+      </div>
+      <div className={subscribeModal ? "modal-subscribe" : "none"}>
+        <div className='subscribe'>
+          <div className='subscribe-header'>
+            <span>팔로잉</span>
+            <button onClick={() => setSubscribeModal(false)}>
+              <i className='fas fa-times'></i>
+            </button>
+          </div>
+          <div className='subscribe-list' id='subscribeModalList'></div>
         </div>
       </div>
     </>
