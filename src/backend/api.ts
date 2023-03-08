@@ -51,3 +51,5 @@ export const uploadFeed = produceUploadAPI<
 >("api/image");
 
 export const fetchFollower = produceReadAPI<FollowListResponse>("api/follower");
+export const fetchFollowing =
+  produceReadAPI<FollowListResponse>("api/following");

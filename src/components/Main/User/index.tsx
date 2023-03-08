@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
 import {
   fetchFollower,
+  fetchFollowing,
   fetchUseProfile,
   followUser,
   unFollowUser,
@@ -19,9 +20,11 @@ const User = () => {
   const [subscribeModal, setSubscribeModal] = useState<boolean>(false);
   const [subscribedModal, setSubscribedModal] = useState<boolean>(false);
   const [followState, setFollowState] = useState<boolean>(false);
+  const [dummy, setDummy] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const [followerList, setFollowerList] = useState<FollowDto[]>();
+  const [followingList, setFollowingList] = useState<FollowDto[]>();
   const params = useParams();
 
   const fetchData = async () => {
@@ -114,6 +117,15 @@ const User = () => {
     }
   };
 
+  const fetchFollowingList = async () => {
+    setSubscribeModal(true);
+    const res = (await fetchFollowing({ id: userInfo?.user.id })).entity;
+    console.log("팔로잉 리스트", res);
+    if (res.code === 1) {
+      setFollowingList(res.data);
+    }
+  };
+
   return (
     <>
       <section className='profile'>
@@ -182,7 +194,7 @@ const User = () => {
                 </li>
                 <li>
                   팔로잉{" "}
-                  <span onClick={() => setSubscribeModal(true)}>
+                  <span onClick={() => fetchFollowingList()}>
                     {userInfo?.followingCount}
                   </span>
                 </li>
@@ -272,10 +284,13 @@ const User = () => {
                 </div>
                 {!follower.equalUserState ? (
                   follower.followState ? (
-                    <div className='subscribed__btn blue'>
+                    <div className='subscribed__btn'>
                       <button
                         className='cta blue'
-                        onClick={() => unfollow(follower.id)}
+                        onClick={() => {
+                          unfollow(follower.id);
+                          setDummy(!dummy);
+                        }}
                       >
                         팔로우 취소
                       </button>
@@ -284,7 +299,10 @@ const User = () => {
                     <div className='subscribed__btn'>
                       <button
                         className='cta'
-                        onClick={() => follow(follower.id)}
+                        onClick={() => {
+                          follow(follower.id);
+                          setDummy(!dummy);
+                        }}
                       >
                         팔로우 하기
                       </button>
@@ -306,7 +324,53 @@ const User = () => {
               <i className='fas fa-times'></i>
             </button>
           </div>
-          <div className='subscribe-list' id='subscribeModalList'></div>
+          <div className='subscribe-list' id='subscribeModalList'>
+            {followingList?.map((follower) => (
+              <div className='subscribe__item' id='subscribeModalItem'>
+                <div className='subscribe__img'>
+                  <img
+                    src={
+                      follower.profileImageUrl
+                        ? `/images/${follower.profileImageUrl}`
+                        : "/images/basic.jpg"
+                    }
+                  />
+                </div>
+                <div className='subscribe__text'>
+                  <h2>{follower.username}</h2>
+                </div>
+                {!follower.equalUserState ? (
+                  follower.followState ? (
+                    <div className='subscribe__btn'>
+                      <button
+                        className='cta blue'
+                        onClick={() => {
+                          unfollow(follower.id);
+                          setDummy(!dummy);
+                        }}
+                      >
+                        팔로우 취소
+                      </button>
+                    </div>
+                  ) : (
+                    <div className='subscribe__btn'>
+                      <button
+                        className='cta'
+                        onClick={() => {
+                          follow(follower.id);
+                          setDummy(!dummy);
+                        }}
+                      >
+                        팔로우 하기
+                      </button>
+                    </div>
+                  )
+                ) : (
+                  ""
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
