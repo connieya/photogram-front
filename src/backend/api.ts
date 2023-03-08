@@ -8,6 +8,7 @@ import {
   produceUploadAPI,
 } from "./apiUtils";
 import {
+  FollowListResponse,
   FollowResponse,
   ImageUploadRequest,
   ImageUploadResponsee,
@@ -48,3 +49,5 @@ export const uploadFeed = produceUploadAPI<
   ImageUploadRequest,
   ImageUploadResponsee
 >("api/image");
+
+export const fetchFollower = produceReadAPI<FollowListResponse>("api/follower");

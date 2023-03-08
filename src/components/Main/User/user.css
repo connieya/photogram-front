@@ -502,6 +502,15 @@
   color: #fff !important;
 }
 
+.subscribed__btn {
+  margin-right: 10px;
+  padding: 10px 10px;
+  border-radius: 4px;
+  color: #262626;
+  font-weight: bold;
+  background: transparent;
+}
+
 .modal-info {
   position: fixed;
   top: 0;

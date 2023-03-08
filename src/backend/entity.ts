@@ -66,9 +66,9 @@ export interface UserInfo {
 export interface UserProfile {
   pageOwner: boolean;
   imageCount: number;
-  subscribeState: boolean;
-  subscribeCount: number;
-  subscribedCount: number;
+  followState: boolean;
+  followingCount: number;
+  followerCount: number;
   user: UserInfo;
 }
 
@@ -82,10 +82,6 @@ export interface ImageUploadResponsee {
   message: string;
   data: number;
 }
-
-// export interface ImageUploadRequest {
-//   formData: FormData;
-// }
 
 export interface UserProfileResponse {
   code: number;
@@ -103,6 +99,20 @@ export interface UserProfileImageResponse {
   code: number;
   message: string;
   data: null;
+}
+
+export interface FollowDto {
+  id: number;
+  username: string;
+  profileImageUrl: string;
+  followState: boolean;
+  equalUserState: boolean;
+}
+
+export interface FollowListResponse {
+  code: number;
+  message: string;
+  data: FollowDto[];
 }
 
 export function authHeader() {

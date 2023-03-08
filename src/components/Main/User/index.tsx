@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./user.css";
 import {
+  fetchFollower,
   fetchUseProfile,
   followUser,
   unFollowUser,
   uploadProfileImage,
 } from "../../../backend/api";
-import { UserProfile } from "../../../backend/entity";
+import { FollowDto, UserProfile } from "../../../backend/entity";
 
 const User = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const User = () => {
   const [subscribedModal, setSubscribedModal] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
+  const [followerList, setFollowerList] = useState<FollowDto[]>();
   const params = useParams();
 
   const fetchData = async () => {
@@ -96,6 +98,16 @@ const User = () => {
     sessionStorage.removeItem("access_token");
     navigate("/signin");
   };
+
+  const fetchFollowerList = async () => {
+    setSubscribedModal(true);
+    const res = (await fetchFollower({ id: userInfo?.user.id })).entity;
+    console.log("팔로워 리스트", res);
+    if (res.code === 1) {
+      setFollowerList(res.data);
+    }
+  };
+
   return (
     <>
       <section className='profile'>
@@ -129,7 +141,7 @@ const User = () => {
                 <button className='cta' onClick={() => navigate("/upload")}>
                   게시물 등록
                 </button>
-              ) : userInfo?.subscribeState ? (
+              ) : userInfo?.followState ? (
                 <button className='cta blue' onClick={unfollow}>
                   팔로우 취소
                 </button>
@@ -150,14 +162,14 @@ const User = () => {
                 </li>
                 <li>
                   팔로워{" "}
-                  <span onClick={() => setSubscribedModal(true)}>
-                    {userInfo?.subscribedCount}
+                  <span onClick={() => fetchFollowerList()}>
+                    {userInfo?.followerCount}
                   </span>
                 </li>
                 <li>
                   팔로잉{" "}
                   <span onClick={() => setSubscribeModal(true)}>
-                    {userInfo?.subscribeCount}
+                    {userInfo?.followingCount}
                   </span>
                 </li>
               </ul>
@@ -181,7 +193,7 @@ const User = () => {
                   <div className='comment'>
                     <a href='#' className=''>
                       <i className='fas fa-heart'></i>
-                      <span>6</span>
+                      <span>0</span>
                     </a>
                   </div>
                 </div>
@@ -192,11 +204,16 @@ const User = () => {
       </section>
       <div className={isModalOpen ? "modal-info" : "none"}>
         <div className={isModalOpen ? "modal" : "none"}>
-          <button
-            onClick={() => navigate(`/user/${userInfo?.user.id}/profile`)}
-          >
-            회원정보 변경
-          </button>
+          {userInfo?.pageOwner ? (
+            <button
+              onClick={() => navigate(`/user/${userInfo?.user.id}/profile`)}
+            >
+              회원정보 변경
+            </button>
+          ) : (
+            " "
+          )}
+
           <button onClick={logout}>로그아웃</button>
           <button onClick={() => setIsModalOpen(false)}>취소</button>
         </div>
@@ -224,7 +241,37 @@ const User = () => {
               <i className='fas fa-times'></i>
             </button>
           </div>
-          <div className='subscribed-list' id='subscribedModalList'></div>
+          <div className='subscribed-list' id='subscribedModalList'>
+            {followerList?.map((follower) => (
+              <div className='subscribed__item' id='subscribedModalItem'>
+                <div className='subscribed__img'>
+                  <img
+                    src={
+                      follower.profileImageUrl
+                        ? `/images/${follower.profileImageUrl}`
+                        : "/images/basic.jpg"
+                    }
+                  />
+                </div>
+                <div className='subscribed__text'>
+                  <h2>{follower.username}</h2>
+                </div>
+                {!follower.equalUserState ? (
+                  follower.followState ? (
+                    <div className='subscribed__btn blue'>
+                      <button className='cta blue'>팔로우 취소</button>
+                    </div>
+                  ) : (
+                    <div className='subscribed__btn'>
+                      <button className='cta'>팔로우 하기</button>
+                    </div>
+                  )
+                ) : (
+                  ""
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className={subscribeModal ? "modal-subscribe" : "none"}>

@@ -105,7 +105,7 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
   return async function ({
     id,
   }: {
-    id: number;
+    id: number | undefined;
   }): Promise<{ entity: returnEntityType }> {
     try {
       const res: any = await client.get(`${apiPath}/${id}`, {
