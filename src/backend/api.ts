@@ -17,6 +17,7 @@ import {
   SignInResponse,
   SignUpRequest,
   SignUpResponse,
+  StoryResponse,
   UserProfileImageResponse,
   UserProfileResponse,
   UserProfileUpdateResponse,
@@ -31,7 +32,7 @@ export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"
 );
 
-export const fetchStorys = produceGetAPI<{}>("api/image");
+export const fetchStorys = produceGetAPI<StoryResponse>("api/image");
 
 export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
 

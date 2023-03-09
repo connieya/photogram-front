@@ -86,7 +86,8 @@
   font-weight: 650;
   margin-left: 4px;
 }
-.profile .profile-right .state h4 {
+.profile .profile-right .state {
+  float: left;
   margin-bottom: 2px;
 }
 
@@ -538,15 +539,6 @@
 
 .modal-info .modal button:not(:last-child) {
   border-bottom: 1px solid #dbdbdb;
-}
-
-/* Animation */
-@keyframes loading {
-  100% {
-    stroke: #cd476b;
-
-    transform: rotate(200deg);
-  }
 }
 
 /* Media */

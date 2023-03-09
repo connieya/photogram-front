@@ -201,8 +201,16 @@ const User = () => {
               </ul>
             </div>
             <div className='state'>
-              <h4>{userInfo?.user.bio}</h4>
-              <h4>{userInfo?.user.website}</h4>
+              <p>{userInfo?.user.bio}</p>
+              <p>
+                <a
+                  href={userInfo?.user.website}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  {userInfo?.user.website}
+                </a>
+              </p>
             </div>
           </div>
         </div>
