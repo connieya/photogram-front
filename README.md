@@ -1,10 +1,12 @@
 # Photogram Front 
 
 ### 회원가입
-
   - 아이디, 이메일 중복 확인
 ![회원가입2](https://user-images.githubusercontent.com/66653324/223017753-c0536161-e25e-4a97-963d-b9fd1b2a0a59.gif)
 
+
+### 로그인
+![로그인](https://user-images.githubusercontent.com/66653324/223928709-041cdf01-9758-47d5-a448-7fbb0367b49b.gif)
 
 ### 프로필 사진 변경
 
@@ -12,6 +14,7 @@
 
 
 ### 회원 정보 수정
+- 아이디 ,이메일 수정 불가
 ![회원정보-수정](https://user-images.githubusercontent.com/66653324/223888848-9fb5168d-dbe0-465b-9263-978af6f42235.gif)
 
 

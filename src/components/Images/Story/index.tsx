@@ -57,12 +57,12 @@ const Story = () => {
               <div className='sl__item__contents'>
                 <div className='sl__item__contents__icon'>
                   <button>
-                    <i className='fas fa-heart active' id='storyLikeIcon'></i>
+                    {/* <i className='fas fa-heart active' id='storyLikeIcon'></i> */}
                     <i className='fas fa-heart' id='storyLikeIcon'></i>
                   </button>
                 </div>
                 <span className='like'>
-                  <b id='storyLikeCount'>10</b>likes
+                  <b id='storyLikeCount'>0</b>likes
                 </span>
                 <div className='sl__item__contents__content'>
                   <p>{story.caption}</p>

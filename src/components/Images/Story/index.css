@@ -135,6 +135,16 @@
   margin-right: 5px;
 }
 
+.like {
+  text-align: left;
+}
+.sl__item__contents__icon {
+  text-align: left;
+}
+.sl__item__contents__content {
+  text-align: left;
+}
+
 /*태그영역*/
 .sl__item__contents__tags {
   height: 40px;
