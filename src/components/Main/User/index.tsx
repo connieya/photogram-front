@@ -287,7 +287,13 @@ const User = () => {
                     }
                   />
                 </div>
-                <div className='subscribed__text'>
+                <div
+                  className='subscribed__text'
+                  onClick={() => {
+                    navigate(`/user/${follower.id}`);
+                    window.location.reload();
+                  }}
+                >
                   <h2>{follower.username}</h2>
                 </div>
                 {!follower.equalUserState ? (
@@ -344,7 +350,13 @@ const User = () => {
                     }
                   />
                 </div>
-                <div className='subscribe__text'>
+                <div
+                  className='subscribe__text'
+                  onClick={() => {
+                    navigate(`/user/${follower.id}`);
+                    window.location.reload();
+                  }}
+                >
                   <h2>{follower.username}</h2>
                 </div>
                 {!follower.equalUserState ? (

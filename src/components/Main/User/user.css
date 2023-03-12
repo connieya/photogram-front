@@ -386,6 +386,11 @@
   font-size: 16px;
   line-height: 50px;
 }
+
+.subscribe__text {
+  cursor: pointer;
+}
+
 .modal-subscribe .subscribe .subscribe-list .subscribe__item .subscribe__btn {
   margin-left: auto;
   display: flex;
@@ -470,6 +475,10 @@
   .subscribed__text {
   padding-top: 5px;
 }
+.subscribed__text {
+  cursor: pointer;
+}
+
 .modal-subscribed
   .subscribed
   .subscribed-list
