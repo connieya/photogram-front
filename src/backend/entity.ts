@@ -46,10 +46,24 @@ export interface UnfollowResponse {
   data: TokenDto;
 }
 
+export interface LikesResponse {
+  code: number;
+  message: string;
+  data: null;
+}
+
+export interface UnLikesResponse {
+  code: number;
+  message: string;
+  data: null;
+}
+
 export interface StoryData {
   id: number;
   caption: string;
   postImageUrl: string;
+  likeState: boolean;
+  likeCount: number;
   user: UserInfo;
 }
 

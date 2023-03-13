@@ -1,21 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { fetchStorys } from "../../../backend/api";
+import { UnlikeImage, fetchStorys, likeImage } from "../../../backend/api";
 import { StoryData } from "../../../backend/entity";
 const Story = () => {
   const navigate = useNavigate();
   const [storyList, setStoryList] = useState<StoryData[]>([]);
+  const [likeEvent, setLikeEvent] = useState<boolean>(false);
 
   const fetch = async () => {
     const res = (await fetchStorys()).entity;
     if (res.code === 1) {
-      console.log("게시글 리스트", res);
       console.log("Dd", res.data);
       setStoryList(res.data);
     } else {
       alert(res.message);
       navigate("/signin");
+    }
+  };
+
+  const clickLike = async (ImageId: number) => {
+    const res = (
+      await likeImage({
+        id: ImageId,
+      })
+    ).entity;
+
+    if (res.code === 1) {
+      alert(res.message);
+      setLikeEvent((prev) => !prev);
+    }
+  };
+
+  const clickUnLike = async (ImageId: number) => {
+    const res = (
+      await UnlikeImage({
+        id: ImageId,
+      })
+    ).entity;
+
+    if (res.code === 1) {
+      alert(res.message);
+      setLikeEvent((prev) => !prev);
     }
   };
 
@@ -27,7 +53,7 @@ const Story = () => {
       return;
     }
     fetch();
-  }, []);
+  }, [likeEvent]);
 
   return (
     <main className='main'>
@@ -56,13 +82,26 @@ const Story = () => {
               </div>
               <div className='sl__item__contents'>
                 <div className='sl__item__contents__icon'>
-                  <button>
-                    {/* <i className='fas fa-heart active' id='storyLikeIcon'></i> */}
-                    <i className='fas fa-heart' id='storyLikeIcon'></i>
-                  </button>
+                  {story.likeState ? (
+                    <button
+                      onClick={() => {
+                        clickUnLike(story.id);
+                      }}
+                    >
+                      <i className='fas fa-heart active' id='storyLikeIcon'></i>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        clickLike(story.id);
+                      }}
+                    >
+                      <i className='fas fa-heart' id='storyLikeIcon'></i>
+                    </button>
+                  )}
                 </div>
                 <span className='like'>
-                  <b id='storyLikeCount'>0</b>likes
+                  <b id='storyLikeCount'>{story.likeCount}</b>likes
                 </span>
                 <div className='sl__item__contents__content'>
                   <p>{story.caption}</p>

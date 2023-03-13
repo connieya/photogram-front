@@ -17,10 +17,11 @@ const User = () => {
   const [file, setFile] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [imageModal, setImageModal] = useState<boolean>(false);
-  const [subscribeModal, setSubscribeModal] = useState<boolean>(false);
-  const [subscribedModal, setSubscribedModal] = useState<boolean>(false);
+  const [followingModal, setFollowingModal] = useState<boolean>(false);
+  const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followState, setFollowState] = useState<boolean>(false);
-  const [dummy, setDummy] = useState<boolean>(false);
+  const [followerListState, setFollwerListState] = useState<boolean>(false);
+  const [followingListState, setFollowingListState] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const [followerList, setFollowerList] = useState<FollowDto[]>();
@@ -37,27 +38,6 @@ const User = () => {
       navigate("/signin");
     }
   };
-
-  useEffect(() => {
-    if (userInfo?.user.profileImageUrl) {
-      const url = `/images/${userInfo?.user.profileImageUrl}`;
-      setProfileUrl(url);
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
-    fetchData();
-  }, [followState]);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("access_token");
-    if (token === null) {
-      alert("로그인이 필요합니다.");
-      navigate("/signin");
-    } else {
-      fetchData();
-    }
-  }, []);
 
   const follow = async (id: number | undefined) => {
     const res = (await followUser({ id: id })).entity;
@@ -109,7 +89,6 @@ const User = () => {
   };
 
   const fetchFollowerList = async () => {
-    setSubscribedModal(true);
     const res = (await fetchFollower({ id: userInfo?.user.id })).entity;
     console.log("팔로워 리스트", res);
     if (res.code === 1) {
@@ -118,13 +97,57 @@ const User = () => {
   };
 
   const fetchFollowingList = async () => {
-    setSubscribeModal(true);
     const res = (await fetchFollowing({ id: userInfo?.user.id })).entity;
     console.log("팔로잉 리스트", res);
     if (res.code === 1) {
       setFollowingList(res.data);
     }
   };
+
+  const openFollowingModal = () => {
+    setFollowingModal(true);
+    fetchFollowingList();
+  };
+
+  const openFollowerModal = () => {
+    setFollowerModal(true);
+    fetchFollowerList();
+  };
+
+  useEffect(() => {
+    fetchFollowerList();
+    fetchData();
+    console.log("!!!", followerListState);
+  }, [followerListState]);
+
+  useEffect(() => {
+    fetchFollowingList();
+    fetchData();
+  }, [followingListState]);
+
+  useEffect(() => {
+    if (userInfo?.user.profileImageUrl) {
+      const url = `/images/${userInfo?.user.profileImageUrl}`;
+      setProfileUrl(url);
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    fetchData();
+  }, [followState]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("access_token");
+    fetchFollowerList();
+    fetchFollowingList();
+    console.log("@@@", followerListState);
+    if (token === null) {
+      alert("로그인이 필요합니다.");
+      navigate("/signin");
+    } else {
+      fetchData();
+    }
+  }, []);
 
   return (
     <>
@@ -188,13 +211,13 @@ const User = () => {
                 </li>
                 <li>
                   팔로워{" "}
-                  <span onClick={() => fetchFollowerList()}>
+                  <span onClick={() => openFollowerModal()}>
                     {userInfo?.followerCount}
                   </span>
                 </li>
                 <li>
                   팔로잉{" "}
-                  <span onClick={() => fetchFollowingList()}>
+                  <span onClick={() => openFollowingModal()}>
                     {userInfo?.followingCount}
                   </span>
                 </li>
@@ -267,17 +290,20 @@ const User = () => {
         </div>
       </div>
 
-      <div className={subscribedModal ? "modal-subscribed" : "none"}>
+      <div className={followerModal ? "modal-subscribed" : "none"}>
         <div className='subscribed'>
           <div className='subscribed-header'>
             <span>팔로워</span>
-            <button onClick={() => setSubscribedModal(false)}>
+            <button onClick={() => setFollowerModal(false)}>
               <i className='fas fa-times'></i>
             </button>
           </div>
           <div className='subscribed-list' id='subscribedModalList'>
             {followerList?.map((follower) => (
-              <div className='subscribed__item' id='subscribedModalItem'>
+              <div
+                className='subscribed__item'
+                id={`subscribeModalItem-${follower.id}`}
+              >
                 <div className='subscribed__img'>
                   <img
                     src={
@@ -303,7 +329,7 @@ const User = () => {
                         className='cta blue'
                         onClick={() => {
                           unfollow(follower.id);
-                          setDummy(!dummy);
+                          setFollwerListState((prev) => !prev);
                         }}
                       >
                         팔로우 취소
@@ -315,7 +341,7 @@ const User = () => {
                         className='cta'
                         onClick={() => {
                           follow(follower.id);
-                          setDummy(!dummy);
+                          setFollwerListState((prev) => !prev);
                         }}
                       >
                         팔로우 하기
@@ -330,17 +356,20 @@ const User = () => {
           </div>
         </div>
       </div>
-      <div className={subscribeModal ? "modal-subscribe" : "none"}>
+      <div className={followingModal ? "modal-subscribe" : "none"}>
         <div className='subscribe'>
           <div className='subscribe-header'>
             <span>팔로잉</span>
-            <button onClick={() => setSubscribeModal(false)}>
+            <button onClick={() => setFollowingModal(false)}>
               <i className='fas fa-times'></i>
             </button>
           </div>
           <div className='subscribe-list' id='subscribeModalList'>
             {followingList?.map((follower) => (
-              <div className='subscribe__item' id='subscribeModalItem'>
+              <div
+                className='subscribe__item'
+                id={`subscribeModalItem-${follower.id}`}
+              >
                 <div className='subscribe__img'>
                   <img
                     src={
@@ -366,7 +395,7 @@ const User = () => {
                         className='cta blue'
                         onClick={() => {
                           unfollow(follower.id);
-                          setDummy(!dummy);
+                          setFollowingListState((prev) => !prev);
                         }}
                       >
                         팔로우 취소
@@ -378,7 +407,7 @@ const User = () => {
                         className='cta'
                         onClick={() => {
                           follow(follower.id);
-                          setDummy(!dummy);
+                          setFollowingListState((prev) => !prev);
                         }}
                       >
                         팔로우 하기

@@ -13,11 +13,13 @@ import {
   FollowResponse,
   ImageUploadRequest,
   ImageUploadResponsee,
+  LikesResponse,
   SignInRequest,
   SignInResponse,
   SignUpRequest,
   SignUpResponse,
   StoryResponse,
+  UnLikesResponse,
   UserProfileImageResponse,
   UserProfileResponse,
   UserProfileUpdateResponse,
@@ -42,6 +44,10 @@ export const fetchUserProfileUpdate =
 export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
 
 export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");
+
+export const likeImage = produceQueryAPI<LikesResponse>("api/likes");
+
+export const UnlikeImage = produceDeleteAPI<UnLikesResponse>("api/likes");
 
 export const uploadProfileImage = produceProfileAPI<
   {},
