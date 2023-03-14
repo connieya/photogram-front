@@ -1,4 +1,5 @@
 import {
+  produceAuthAPI,
   produceCreateAPI,
   produceDeleteAPI,
   produceGetAPI,
@@ -9,6 +10,8 @@ import {
   produceUploadAPI,
 } from "./apiUtils";
 import {
+  CommentRequest,
+  CommentResponse,
   FollowListResponse,
   FollowResponse,
   ImageUploadRequest,
@@ -26,11 +29,11 @@ import {
   UserUpdateRequest,
 } from "./entity";
 
-export const SignInUser = produceCreateAPI<SignInRequest, SignInResponse>(
+export const SignInUser = produceAuthAPI<SignInRequest, SignInResponse>(
   "auth/signin"
 );
 
-export const SignUpUser = produceCreateAPI<SignUpRequest, SignUpResponse>(
+export const SignUpUser = produceAuthAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"
 );
 
@@ -67,3 +70,7 @@ export const updateProfile = produceUpdateProfileAPI<
 export const fetchFollower = produceReadAPI<FollowListResponse>("api/follower");
 export const fetchFollowing =
   produceReadAPI<FollowListResponse>("api/following");
+
+export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
+  "api/comment"
+);

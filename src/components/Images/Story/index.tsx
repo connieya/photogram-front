@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { UnlikeImage, fetchStorys, likeImage } from "../../../backend/api";
+import {
+  UnlikeImage,
+  addComment,
+  fetchStorys,
+  likeImage,
+} from "../../../backend/api";
 import { StoryData } from "../../../backend/entity";
 const Story = () => {
   const navigate = useNavigate();
   const [storyList, setStoryList] = useState<StoryData[]>([]);
   const [likeEvent, setLikeEvent] = useState<boolean>(false);
+  const [comment, setComment] = useState<string>("");
 
   const fetch = async () => {
     const res = (await fetchStorys()).entity;
@@ -42,6 +48,24 @@ const Story = () => {
     if (res.code === 1) {
       alert(res.message);
       setLikeEvent((prev) => !prev);
+    }
+  };
+
+  const handleSubmit = async (ImageId: number) => {
+    if (!comment) {
+      alert("댓글을 입력하세요");
+      return;
+    }
+    const res = (
+      await addComment({
+        createPayload: {
+          imageId: ImageId,
+          content: comment,
+        },
+      })
+    ).entity;
+    if (res.code === 1) {
+      setComment("");
     }
   };
 
@@ -114,8 +138,15 @@ const Story = () => {
                   </div> */}
                 </div>
                 <div className='sl__item__input'>
-                  <input type='text' placeholder='댓글 달기' />
-                  <button type='button'>게시</button>
+                  <input
+                    type='text'
+                    placeholder='댓글 달기'
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <button type='button' onClick={() => handleSubmit(story.id)}>
+                    게시
+                  </button>
                 </div>
               </div>
             </div>

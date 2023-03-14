@@ -148,6 +148,17 @@ export interface UserUpdateRequest {
   bio: string;
 }
 
+export interface CommentRequest {
+  content: string;
+  imageId: number;
+}
+
+export interface CommentResponse {
+  code: number;
+  message: string;
+  data: null;
+}
+
 export function authHeader() {
   const user = sessionStorage.getItem("access_token");
   if (user) {
