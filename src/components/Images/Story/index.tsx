@@ -17,7 +17,6 @@ const Story = () => {
   const fetch = async () => {
     const res = (await fetchStorys()).entity;
     if (res.code === 1) {
-      console.log("Dd", res.data);
       setStoryList(res.data);
     } else {
       alert(res.message);
@@ -97,9 +96,13 @@ const Story = () => {
                     alt='프사'
                   />
                 </div>
-                <a onClick={() => navigate(`/user/${story.user.id}`)} href=''>
-                  <div>{story.user.username}</div>
-                </a>
+
+                <div
+                  className='story-username'
+                  onClick={() => navigate(`/user/${story.user.id}`)}
+                >
+                  {story.user.username}
+                </div>
               </div>
               <div className='sl__item__img'>
                 <img src={`/images/${story.postImageUrl}`} alt='업로드 사진' />

@@ -74,3 +74,5 @@ export const fetchFollowing =
 export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
   "api/comment"
 );
+
+export const fetchPopular = produceGetAPI<{}>("api/image/popular");

@@ -121,6 +121,10 @@
   padding: 5px 15px;
 }
 
+.story-username {
+  cursor: pointer;
+}
+
 /*게시물 like 갯수스타일*/
 .main .container .story-list .story-list__item .sl__item__contents .like {
   background-color: transparent;

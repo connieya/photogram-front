@@ -27,7 +27,7 @@ const Header = () => {
                 </a>
               </li>
               <li className='navi-item'>
-                <a href='/image/popular'>
+                <a onClick={() => navigate("/image/popular")} href=''>
                   <i className='far fa-compass'></i>
                 </a>
               </li>
