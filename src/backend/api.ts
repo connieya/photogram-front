@@ -75,4 +75,4 @@ export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
   "api/comment"
 );
 
-export const fetchPopular = produceGetAPI<{}>("api/image/popular");
+export const fetchPopular = produceGetAPI<StoryResponse>("api/image/popular");
