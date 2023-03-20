@@ -115,6 +115,11 @@ export interface UserProfileResponse {
   message: string;
   data: UserProfile;
 }
+export interface UserListResponse {
+  code: number;
+  message: string;
+  data: UserInfo[];
+}
 
 export interface UserProfileUpdateResponse {
   code: number;

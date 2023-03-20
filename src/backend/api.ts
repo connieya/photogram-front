@@ -23,6 +23,7 @@ import {
   SignUpResponse,
   StoryResponse,
   UnLikesResponse,
+  UserListResponse,
   UserProfileImageResponse,
   UserProfileResponse,
   UserProfileUpdateResponse,
@@ -76,3 +77,5 @@ export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
 );
 
 export const fetchPopular = produceGetAPI<StoryResponse>("api/image/popular");
+
+export const fetchUsers = produceGetAPI<UserListResponse>("api/users");

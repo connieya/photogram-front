@@ -22,6 +22,11 @@
 
 ![게시물](https://user-images.githubusercontent.com/66653324/223067567-1eda8611-682d-4af0-a3c4-1bcf1c54e742.gif)
 
+### 사용자 검색/ 프로필 조회
+
+![프로필조회](https://user-images.githubusercontent.com/66653324/226251783-84274a24-b4c2-4b7b-a0c8-6447861d5a26.gif)
+
+
 ### 팔로우/팔로우 취소
 
 ![팔로우우](https://user-images.githubusercontent.com/66653324/223716096-9d773d28-f015-430a-b529-1bcd093361b7.gif)
@@ -35,3 +40,9 @@
 ### 게시물 좋아요/좋아요 취소
 
 ![좋아요](https://user-images.githubusercontent.com/66653324/224623836-8f289038-e83c-4196-b828-f7fef080638a.gif)
+
+
+### 좋아요 많은 인기 게시물
+
+
+![인기게시물](https://user-images.githubusercontent.com/66653324/225461487-075d202f-42ce-4548-8450-41a6577b45f5.gif)
