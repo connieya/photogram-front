@@ -8,11 +8,12 @@ import {
   likeImage,
 } from "../../../backend/api";
 import { StoryData } from "../../../backend/entity";
+import Comment from "../Comment";
 const Story = () => {
   const navigate = useNavigate();
+  const [content, setContent] = useState<string>("");
   const [storyList, setStoryList] = useState<StoryData[]>([]);
   const [likeEvent, setLikeEvent] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>("");
 
   const fetch = async () => {
     const res = (await fetchStorys()).entity;
@@ -51,7 +52,7 @@ const Story = () => {
   };
 
   const handleSubmit = async (ImageId: number) => {
-    if (!comment) {
+    if (!content) {
       alert("댓글을 입력하세요");
       return;
     }
@@ -59,12 +60,19 @@ const Story = () => {
       await addComment({
         createPayload: {
           imageId: ImageId,
-          content: comment,
+          content: content,
         },
       })
     ).entity;
     if (res.code === 1) {
-      setComment("");
+      setContent("");
+      fetch();
+    }
+  };
+
+  const handleOnKeyPress = (e: any, imageId: number) => {
+    if (e.key === "Enter") {
+      handleSubmit(imageId);
     }
   };
 
@@ -77,6 +85,8 @@ const Story = () => {
     }
     fetch();
   }, [likeEvent]);
+
+  useEffect(() => {}, [storyList]);
 
   return (
     <main className='main'>
@@ -133,19 +143,16 @@ const Story = () => {
                 <div className='sl__item__contents__content'>
                   <p>{story.caption}</p>
                 </div>
-                <div id='storyCommentList'>
-                  {/* <div className='sl__item__contents__comment'>
-                    <p>
-                      <b>유저 아이디 :</b> 내용
-                    </p>
-                  </div> */}
-                </div>
+                {story.comments.map((comment) => (
+                  <Comment comment={comment} />
+                ))}
                 <div className='sl__item__input'>
                   <input
                     type='text'
                     placeholder='댓글 달기'
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    onKeyDown={(e) => handleOnKeyPress(e, story.id)}
                   />
                   <button type='button' onClick={() => handleSubmit(story.id)}>
                     게시

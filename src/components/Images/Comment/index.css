@@ -1,0 +1,33 @@
+.sl__item__contents__comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: transparent;
+  color: #000;
+  font-size: 16px;
+  padding: 0 15px;
+  margin-bottom: 5px;
+}
+
+.main .container .story-list .story-list__item .sl__item__input {
+  display: flex;
+  border-top: 1px solid #dbdbdb;
+}
+
+/*입력 인풋*/
+.main .container .story-list .story-list__item .sl__item__input input {
+  flex: 9;
+  height: 56px;
+  border: 0;
+  padding-left: 15px;
+}
+/* 입력하기 버튼 */
+.main .container .story-list .story-list__item .sl__item__input button {
+  flex: 1;
+  height: 56px;
+  border: 0;
+  background-color: transparent;
+  font-weight: 500;
+  color: #0095f6;
+  font-size: 14px;
+}

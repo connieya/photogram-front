@@ -58,6 +58,12 @@ export interface UnLikesResponse {
   data: null;
 }
 
+export interface Comment {
+  id: number;
+  content: string;
+  user: UserInfo;
+}
+
 export interface StoryData {
   id: number;
   caption: string;
@@ -65,6 +71,7 @@ export interface StoryData {
   likeState: boolean;
   likeCount: number;
   user: UserInfo;
+  comments: Comment[];
 }
 
 export interface Image {
