@@ -79,3 +79,5 @@ export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
 export const fetchPopular = produceGetAPI<StoryResponse>("api/image/popular");
 
 export const fetchUsers = produceGetAPI<UserListResponse>("api/users");
+
+export const deleteComment = produceDeleteAPI<CommentResponse>("api/comment");

@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import {
   UnlikeImage,
   addComment,
+  deleteComment,
   fetchStorys,
   likeImage,
 } from "../../../backend/api";
 import { StoryData } from "../../../backend/entity";
 import Comment from "../Comment";
+
 const Story = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState<string>("");
@@ -76,6 +78,14 @@ const Story = () => {
     }
   };
 
+  const deleteEvent = async (id: any) => {
+    const res = (await deleteComment({ id: id })).entity;
+    console.log("댓글 삭제 !!", res);
+    if (res.code === 1) {
+      alert(res.message);
+      fetch();
+    }
+  };
   useEffect(() => {
     const token = sessionStorage.getItem("access_token");
     if (!token) {
@@ -144,7 +154,10 @@ const Story = () => {
                   <p>{story.caption}</p>
                 </div>
                 {story.comments.map((comment) => (
-                  <Comment comment={comment} />
+                  <Comment
+                    comment={comment}
+                    onClick={() => deleteEvent(comment.id)}
+                  />
                 ))}
                 <div className='sl__item__input'>
                   <input

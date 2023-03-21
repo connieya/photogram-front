@@ -23,7 +23,6 @@ const Header = () => {
 
   useEffect(() => {
     getUserList();
-    console.log("@@#@!#!@#@!#@!#", userId);
   }, []);
   return (
     <div>

@@ -46,3 +46,7 @@
 
 
 ![인기게시물](https://user-images.githubusercontent.com/66653324/225461487-075d202f-42ce-4548-8450-41a6577b45f5.gif)
+
+### 댓글 등록 / 삭제
+
+![댓글등록삭제](https://user-images.githubusercontent.com/66653324/226517482-24cd420a-6096-478a-9a6f-9ac5a92bf542.gif)
