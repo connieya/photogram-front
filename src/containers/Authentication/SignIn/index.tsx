@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "../auth.css";
 import { useNavigate } from "react-router-dom";
-
 import logo from "../../../assets/logo.jpg";
 import { SignInUser } from "../../../backend/api";
-import UserContext from "../../../context/UserProvider";
-
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { setUser } from "../../../store/userSlice";
 const Intro = () => {
-  const { setUser } = useContext(UserContext);
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,9 +25,10 @@ const Intro = () => {
     ).entity;
     console.log("로그인 !!!", res);
     if (res.code === 1) {
-      console.log(res.data.tokenDto.accessToken);
       sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
-      setUser(res.data.user);
+      const id = res.data.user.id;
+      const username = res.data.user.username;
+      dispatch(setUser({ id: id, username: username }));
       alert(res.message);
       navigate("/story");
     }

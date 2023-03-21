@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./header.css";
 import logo from "../../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/UserProvider";
 import { UserInfo } from "../../backend/entity";
 import { fetchUsers } from "../../backend/api";
+import { useSelector } from "react-redux";
+import { selectId } from "../../store/userSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const [userList, setUserList] = useState<UserInfo[]>([]);
   const [query, setQuery] = useState<string>("");
-  const { user } = useContext(UserContext);
+  const userId = useSelector(selectId);
 
   const getUserList = async () => {
     const res = (await fetchUsers()).entity;
-    console.log("Res => ", res);
     if (res.code === 1) {
       setUserList(res.data);
     }
@@ -23,6 +23,7 @@ const Header = () => {
 
   useEffect(() => {
     getUserList();
+    console.log("@@#@!#!@#@!#@!#", userId);
   }, []);
   return (
     <div>
@@ -55,7 +56,7 @@ const Header = () => {
                 </a>
               </li>
               <li className='navi-item'>
-                <a onClick={() => navigate(`/user/${user.id}`)} href=''>
+                <a onClick={() => navigate(`/user/${userId}`)} href=''>
                   <i className='far fa-user'></i>
                 </a>
               </li>

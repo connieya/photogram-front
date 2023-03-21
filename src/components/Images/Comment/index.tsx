@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.css";
-import { addComment } from "../../../backend/api";
 import { UserInfo } from "../../../backend/entity";
 
 type CommentProps = {
@@ -16,6 +15,9 @@ const Comment = (props: { comment: CommentProps }) => {
         <p>
           <b>{props.comment.user.username} :</b> {props.comment.content}
         </p>
+        <button onClick={() => {}}>
+          <i className='fas fa-times'></i>
+        </button>
       </div>
     </div>
   );
