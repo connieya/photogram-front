@@ -14,7 +14,6 @@ const Intro = () => {
 
   const signin = async (e: any) => {
     e.preventDefault();
-    console.log("로그인 데이터", username, password);
     const res = (
       await SignInUser({
         createPayload: {
@@ -23,7 +22,7 @@ const Intro = () => {
         },
       })
     ).entity;
-    console.log("로그인 !!!", res);
+    console.log("로그인 !!!", res.data.tokenDto);
     if (res.code === 1) {
       sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
       const id = res.data.user.id;

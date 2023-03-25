@@ -1,5 +1,6 @@
 import { client } from "./axios";
 import { authHeader, uploadHeader } from "./entity";
+import { useNavigate } from "react-router-dom";
 
 interface CreateProps<entityCreateProp> {
   createPayload: entityCreateProp;
@@ -36,8 +37,12 @@ export function produceCreateAPI<entityCreateProp, returnEntityType>(
       });
       return { entity: res.data };
     } catch (error: any) {
-      console.log("error =>", error);
-      alert(error.response.data.message);
+      const navigate = useNavigate();
+      console.log("error =>", error.status);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
@@ -55,8 +60,12 @@ export function produceProfileAPI<entityCreateProp, returnEntityType>(
       });
       return { entity: res.data };
     } catch (error: any) {
+      const navigate = useNavigate();
       console.log("error =>", error);
-      alert(error.response.data.message);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
@@ -75,8 +84,12 @@ export function produceUpdateProfileAPI<entityCreateProp, returnEntityType>(
       });
       return { entity: res.data };
     } catch (error: any) {
+      const navigate = useNavigate();
       console.log("error =>", error);
-      alert(error.response.data.message);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
@@ -132,7 +145,12 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
       });
       return { entity: res.data };
     } catch (error: any) {
+      const navigate = useNavigate();
       console.log("error =>", error.response.data);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
 
       return { entity: error.response.data };
     }
@@ -146,7 +164,13 @@ export function produceGetAPI<returnEntityType>(apiPath: string) {
         headers: authHeader(),
       });
       return { entity: res.data };
-    } catch (error) {
+    } catch (error: any) {
+      const navigate = useNavigate();
+      console.log("error => ", error);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
@@ -161,7 +185,13 @@ export function producePageAPI<returnEntityType>(apiPath: string) {
     try {
       const res: any = await client.get(`/${apiPath}?query=${page}`);
       return { entity: res.data };
-    } catch (error) {
+    } catch (error: any) {
+      const navigate = useNavigate();
+      console.log("error => ", error);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
@@ -178,7 +208,13 @@ export function produceDeleteAPI<returnEntityType>(apiPath: string) {
         headers: authHeader(),
       });
       return { entity: res.data };
-    } catch (error) {
+    } catch (error: any) {
+      const navigate = useNavigate();
+      console.log("error => ", error);
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       throw error;
     }
   };
