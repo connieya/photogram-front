@@ -59,18 +59,21 @@ export interface UnLikesResponse {
 }
 
 export interface Comment {
-  id: number;
+  contentId: number;
   content: string;
-  user: UserInfo;
+  userId: number;
+  username: string;
 }
 
 export interface StoryData {
-  id: number;
-  caption: string;
+  profileImageUrl: string;
+  userId: number;
   postImageUrl: string;
+  caption: string;
+  username: boolean;
+  imageId: number;
   likeState: boolean;
   likeCount: number;
-  user: UserInfo;
   comments: Comment[];
 }
 

@@ -32,8 +32,8 @@ const Popular = () => {
                 <div>
                   <img
                     src={
-                      image.user.profileImageUrl
-                        ? `/images/${image.user.profileImageUrl}`
+                      image.profileImageUrl
+                        ? `/images/${image.profileImageUrl}`
                         : "/images/basic.jpg"
                     }
                     className='user-profile'
@@ -42,9 +42,9 @@ const Popular = () => {
                 </div>
                 <div
                   className='popular-username'
-                  onClick={() => navigate(`/user/${image.user.id}`)}
+                  onClick={() => navigate(`/user/${image.userId}`)}
                 >
-                  {image.user.username}
+                  {image.username}
                 </div>
               </div>
               <div className='img-box'>

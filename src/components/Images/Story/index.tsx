@@ -28,6 +28,7 @@ const Story = () => {
   };
 
   const clickLike = async (ImageId: number) => {
+    console.log("좋아요 클릭 ! ", ImageId);
     const res = (
       await likeImage({
         id: ImageId,
@@ -41,6 +42,7 @@ const Story = () => {
   };
 
   const clickUnLike = async (ImageId: number) => {
+    console.log("좋아요 취소 !", ImageId);
     const res = (
       await UnlikeImage({
         id: ImageId,
@@ -54,10 +56,6 @@ const Story = () => {
   };
 
   const handleSubmit = async (ImageId: number) => {
-    if (!content) {
-      alert("댓글을 입력하세요");
-      return;
-    }
     const res = (
       await addComment({
         createPayload: {
@@ -80,7 +78,6 @@ const Story = () => {
 
   const deleteEvent = async (id: any) => {
     const res = (await deleteComment({ id: id })).entity;
-    console.log("댓글 삭제 !!", res);
     if (res.code === 1) {
       alert(res.message);
       fetch();
@@ -108,8 +105,8 @@ const Story = () => {
                 <div>
                   <img
                     src={
-                      story.user.profileImageUrl
-                        ? `/images/${story.user.profileImageUrl}`
+                      story.profileImageUrl
+                        ? `/images/${story.profileImageUrl}`
                         : "/images/basic.jpg"
                     }
                     className='profile-image'
@@ -119,9 +116,9 @@ const Story = () => {
 
                 <div
                   className='story-username'
-                  onClick={() => navigate(`/user/${story.user.id}`)}
+                  onClick={() => navigate(`/user/${story.userId}`)}
                 >
-                  {story.user.username}
+                  {story.username}
                 </div>
               </div>
               <div className='sl__item__img'>
@@ -132,7 +129,7 @@ const Story = () => {
                   {story.likeState ? (
                     <button
                       onClick={() => {
-                        clickUnLike(story.id);
+                        clickUnLike(story.imageId);
                       }}
                     >
                       <i className='fas fa-heart active' id='storyLikeIcon'></i>
@@ -140,7 +137,7 @@ const Story = () => {
                   ) : (
                     <button
                       onClick={() => {
-                        clickLike(story.id);
+                        clickLike(story.imageId);
                       }}
                     >
                       <i className='fas fa-heart' id='storyLikeIcon'></i>
@@ -156,7 +153,7 @@ const Story = () => {
                 {story.comments.map((comment) => (
                   <Comment
                     comment={comment}
-                    onClick={() => deleteEvent(comment.id)}
+                    onClick={() => deleteEvent(comment.contentId)}
                   />
                 ))}
                 <div className='sl__item__input'>
@@ -165,9 +162,12 @@ const Story = () => {
                     placeholder='댓글 달기'
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    onKeyDown={(e) => handleOnKeyPress(e, story.id)}
+                    onKeyDown={(e) => handleOnKeyPress(e, story.imageId)}
                   />
-                  <button type='button' onClick={() => handleSubmit(story.id)}>
+                  <button
+                    type='button'
+                    onClick={() => handleSubmit(story.imageId)}
+                  >
                     게시
                   </button>
                 </div>

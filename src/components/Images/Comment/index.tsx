@@ -5,9 +5,10 @@ import { selectId } from "../../../store/userSlice";
 import { useSelector } from "react-redux";
 
 type CommentProps = {
-  id: number;
+  contentId: number;
   content: string;
-  user: UserInfo;
+  userId: number;
+  username: string;
 };
 
 interface ChildProps {
@@ -21,9 +22,10 @@ const Comment: React.FC<ChildProps> = (props) => {
     <div>
       <div className='sl__item__contents__comment'>
         <p>
-          <b>{props.comment.user.username} :</b> {props.comment.content}
+          <b>{props.comment.username} :</b>
+          {props.comment.content}
         </p>
-        {userId === props.comment.user.id ? (
+        {userId === props.comment.userId ? (
           <button onClick={props.onClick}>
             <i className='fas fa-times'></i>
           </button>

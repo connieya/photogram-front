@@ -6,6 +6,7 @@ import { SignInUser } from "../../../backend/api";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { setUser } from "../../../store/userSlice";
+import { FACEBOOK_AUTH_URL } from "../../../utils";
 const Intro = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -22,7 +23,6 @@ const Intro = () => {
         },
       })
     ).entity;
-    console.log("로그인 !!!", res.data.tokenDto);
     if (res.code === 1) {
       sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
       const id = res.data.user.id;
@@ -66,18 +66,18 @@ const Intro = () => {
                 <button type='submit'>로그인</button>
               </form>
 
-              {/* <div className='login__horizon'>
+              <div className='login__horizon'>
                 <div className='br'></div>
                 <div className='or'>또는</div>
                 <div className='br'></div>
-              </div> */}
+              </div>
 
-              {/* <div className='login__facebook'>
-                <button>
+              <div className='login__facebook'>
+                <a href={FACEBOOK_AUTH_URL}>
                   <i className='fab fa-facebook-square'></i>
                   <span>Facebook으로 로그인</span>
-                </button>
-              </div> */}
+                </a>
+              </div>
             </div>
 
             <div className='login__register'>

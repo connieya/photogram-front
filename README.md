@@ -1,5 +1,11 @@
 # Photogram Front 
 
+## 도메인 모델 
+
+![image](https://user-images.githubusercontent.com/66653324/227848703-c11dad60-025f-4f12-ac04-c5b9482256a4.png)
+
+
+
 ### 회원가입
   - 아이디, 이메일 중복 확인
 ![회원가입2](https://user-images.githubusercontent.com/66653324/223017753-c0536161-e25e-4a97-963d-b9fd1b2a0a59.gif)

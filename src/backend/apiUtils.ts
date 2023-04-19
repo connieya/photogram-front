@@ -13,12 +13,10 @@ export function produceAuthAPI<entityCreateProp, returnEntityType>(
     createPayload,
   }: CreateProps<entityCreateProp>): Promise<{ entity: returnEntityType }> {
     try {
-      console.log("createPayload : ", createPayload);
       const res: any = await client.post(`/${apiPath}`, createPayload);
       return { entity: res.data };
     } catch (error: any) {
-      console.log("error =>", error);
-      alert(error.response.data.message);
+      alert(error.response.data.data);
       throw error;
     }
   };
@@ -31,17 +29,14 @@ export function produceCreateAPI<entityCreateProp, returnEntityType>(
     createPayload,
   }: CreateProps<entityCreateProp>): Promise<{ entity: returnEntityType }> {
     try {
-      console.log("createPayload : ", createPayload);
       const res: any = await client.post(`/${apiPath}`, createPayload, {
         headers: authHeader(),
       });
       return { entity: res.data };
     } catch (error: any) {
-      const navigate = useNavigate();
-      console.log("error =>", error.status);
-      if (error.status === 401) {
-        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
-        navigate("/signin");
+      console.log("error =>!!", error);
+      if (error.response.status === 400) {
+        alert(error.response.data.data.content);
       }
       throw error;
     }
@@ -54,7 +49,6 @@ export function produceProfileAPI<entityCreateProp, returnEntityType>(
     createPayload,
   }: CreateProps<entityCreateProp>): Promise<{ entity: returnEntityType }> {
     try {
-      console.log("createPayload : ", createPayload);
       const res: any = await client.put(`/${apiPath}`, createPayload, {
         headers: uploadHeader(),
       });
@@ -102,7 +96,6 @@ export function produceUploadAPI<entityCreateProp, returnEntityType>(
     createPayload,
   }: CreateProps<entityCreateProp>): Promise<{ entity: returnEntityType }> {
     try {
-      console.log("createPayload : ", createPayload);
       const res: any = await client.post(`/${apiPath}`, createPayload, {
         headers: uploadHeader(),
       });
@@ -127,7 +120,11 @@ export function produceQueryAPI<returnEntityType>(apiPath: string) {
       });
       return { entity: res.data };
     } catch (error: any) {
-      console.log("error =>", error.response.data);
+      const navigate = useNavigate();
+      if (error.status === 401) {
+        alert("로그인이 만료 되었습니다. 다시 로그인 해주세요");
+        navigate("/signin");
+      }
       return { entity: error.response.data };
     }
   };
