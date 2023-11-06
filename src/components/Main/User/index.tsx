@@ -10,6 +10,8 @@ import {
   uploadProfileImage,
 } from "../../../backend/api";
 import { FollowDto, UserProfile } from "../../../backend/entity";
+import styled from "styled-components";
+import NameGroup from "./NameGroup";
 
 const User = () => {
   const navigate = useNavigate();
@@ -114,33 +116,34 @@ const User = () => {
     fetchFollowerList();
   };
 
-  useEffect(() => {
-    fetchFollowerList();
-    fetchData();
-    console.log("!!!", followerListState);
-  }, [followerListState]);
+  // useEffect(() => {
+  //   fetchFollowerList();
+  //   fetchData();
+  //   console.log("!!!", followerListState);
+  // }, [followerListState]);
+
+  // useEffect(() => {
+  //   fetchFollowingList();
+  //   fetchData();
+  // }, [followingListState]);
+
+  // useEffect(() => {
+  //   if (userInfo?.user.profileImageUrl) {
+  //     const url = `/images/${userInfo?.user.profileImageUrl}`;
+  //     setProfileUrl(url);
+  //   }
+  // }, [userInfo]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [followState]);
 
   useEffect(() => {
-    fetchFollowingList();
-    fetchData();
-  }, [followingListState]);
-
-  useEffect(() => {
-    if (userInfo?.user.profileImageUrl) {
-      const url = `/images/${userInfo?.user.profileImageUrl}`;
-      setProfileUrl(url);
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
-    fetchData();
-  }, [followState]);
-
-  useEffect(() => {
+    console.log("params =>", params);
     const token = sessionStorage.getItem("access_token");
-    fetchFollowerList();
-    fetchFollowingList();
-    console.log("@@@", followerListState);
+    // fetchFollowerList();
+    // fetchFollowingList();
+    // console.log("@@@", followerListState);
     if (token === null) {
       alert("로그인이 필요합니다.");
       navigate("/signin");
@@ -151,13 +154,10 @@ const User = () => {
 
   return (
     <>
-      <section className='profile'>
-        <div className='profileContainer'>
-          <div className='profile-left'>
-            <div
-              className='profile-img-wrap story-border'
-              onClick={() => setImageModal(true)}
-            >
+      <Section>
+        <ProfileContainer>
+          <ProfileLeftWrapper>
+            <ProfileLeftBox onClick={() => setImageModal(true)}>
               <form id='userProfileImageForm'>
                 <input
                   ref={fileUpload}
@@ -173,57 +173,30 @@ const User = () => {
                 alt='프사'
                 id='userProfileImage'
               />
-            </div>
-          </div>
-          <div className='profile-right'>
-            <div className='name-group'>
-              <h2>{userInfo?.user.nickname}</h2>
-              {userInfo?.pageOwner ? (
-                <button className='cta' onClick={() => navigate("/upload")}>
-                  게시물 등록
-                </button>
-              ) : followState ? (
-                <button
-                  className='cta blue'
-                  onClick={() => {
-                    unfollow(userInfo?.user.id);
-                  }}
-                >
-                  팔로우 취소
-                </button>
-              ) : (
-                <button
-                  className='cta'
-                  onClick={() => follow(userInfo?.user.id)}
-                >
-                  팔로우 하기
-                </button>
-              )}
-
-              <button className='modi' onClick={() => setIsModalOpen(true)}>
-                <i className='fas fa-cog'></i>
-              </button>
-            </div>
-            <div className='subscribe'>
-              <ul>
-                <li>
+            </ProfileLeftBox>
+          </ProfileLeftWrapper>
+          <ProfileRightBox>
+            <NameGroup />
+            <FollowInfoBox>
+              <FollowInfoList>
+                <FollowInfoItem>
                   게시물 <span>{userInfo?.imageCount}</span>
-                </li>
-                <li>
+                </FollowInfoItem>
+                <FollowInfoItem>
                   팔로워{" "}
                   <span onClick={() => openFollowerModal()}>
                     {userInfo?.followerCount}
                   </span>
-                </li>
-                <li>
+                </FollowInfoItem>
+                <FollowInfoItem>
                   팔로잉{" "}
                   <span onClick={() => openFollowingModal()}>
                     {userInfo?.followingCount}
                   </span>
-                </li>
-              </ul>
-            </div>
-            <div className='state'>
+                </FollowInfoItem>
+              </FollowInfoList>
+            </FollowInfoBox>
+            <UserInfoBox>
               <p>{userInfo?.user.bio}</p>
               <p>
                 <a
@@ -234,15 +207,15 @@ const User = () => {
                   {userInfo?.user.website}
                 </a>
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
+            </UserInfoBox>
+          </ProfileRightBox>
+        </ProfileContainer>
+      </Section>
       <section id='tab-content'>
         <div className='profileContainer'>
           <div id='tab-1-content' className='tab-content-item show'>
             <div className='tab-1-content-inner'>
-              {userInfo?.user.images.map((image) => (
+              {/* {userInfo?.user.images.map((image) => (
                 <div className='img-box'>
                   <a href='/'>
                     <img src={`/images/${image.postImageUrl}`} />
@@ -254,27 +227,11 @@ const User = () => {
                     </a>
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
       </section>
-      <div className={isModalOpen ? "modal-info" : "none"}>
-        <div className={isModalOpen ? "modal" : "none"}>
-          {userInfo?.pageOwner ? (
-            <button
-              onClick={() => navigate(`/user/${userInfo?.user.id}/profile`)}
-            >
-              회원정보 변경
-            </button>
-          ) : (
-            " "
-          )}
-
-          <button onClick={logout}>로그아웃</button>
-          <button onClick={() => setIsModalOpen(false)}>취소</button>
-        </div>
-      </div>
 
       <div className={imageModal ? "modal-image" : "none"}>
         <div className={imageModal ? "modal" : "none"}>
@@ -427,3 +384,69 @@ const User = () => {
 };
 
 export default User;
+
+const Section = styled.section`
+  height: 170px;
+  display: flex;
+  margin: 54px 0 44px;
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 935px;
+  margin: 0 auto;
+  height: 100%;
+`;
+
+const ProfileLeftWrapper = styled.div`
+  height: 100%;
+  flex-basis: 40%;
+  display: flex;
+  justify-content: center;
+`;
+
+const ProfileLeftBox = styled.div`
+  width: 162px;
+  height: 162px;
+  padding: 6px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #f2eff3;
+  }
+`;
+
+const ProfileRightBox = styled.div`
+  height: 100%;
+  flex-basis: 60%;
+`;
+
+const FollowInfoBox = styled.div`
+  height: 28px;
+  margin-bottom: 5px;
+`;
+
+const FollowInfoList = styled.ul`
+  display: flex;
+`;
+
+const FollowInfoItem = styled.li`
+  font-weight: 50;
+  margin-right: 18px;
+  span {
+    cursor: pointer;
+    font-weight: 650;
+    margin-left: 4px;
+  }
+`;
+
+const UserInfoBox = styled.div`
+  float: left;
+  margin-bottom: 2px;
+`;

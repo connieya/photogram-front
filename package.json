@@ -12,7 +12,8 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "styled-components": "^6.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,6 +43,7 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/redux-persist": "^4.3.1",
+    "@types/styled-components": "^5.1.29",
     "web-vitals": "^3.1.1"
   }
 }

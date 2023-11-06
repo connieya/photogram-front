@@ -10,6 +10,22 @@ import {
 } from "../../../backend/api";
 import { StoryData } from "../../../backend/entity";
 import Comment from "../Comment";
+import {
+  Button,
+  CommentsInfo,
+  ContentsBox,
+  ContentsWrappeIcon,
+  ContentsWrapper,
+  InputBox,
+  ListItem,
+  ListItemHeader,
+  Main,
+  ProfileImageBox,
+  Section,
+  Span,
+  StoryList,
+  UploadImageBox,
+} from "./Story.styles";
 
 const Story = () => {
   const navigate = useNavigate();
@@ -19,6 +35,7 @@ const Story = () => {
 
   const fetch = async () => {
     const res = (await fetchStorys()).entity;
+    console.log("피드 불러오기", res);
     if (res.code === 1) {
       setStoryList(res.data);
     } else {
@@ -96,13 +113,13 @@ const Story = () => {
   useEffect(() => {}, [storyList]);
 
   return (
-    <main className='main'>
-      <section className='container'>
-        <article className='story-list' id='storyList'>
+    <Main>
+      <Section>
+        <StoryList>
           {storyList.map((story) => (
-            <div className='story-list__item'>
-              <div className='sl__item__header'>
-                <div>
+            <ListItem>
+              <ListItemHeader>
+                <ProfileImageBox>
                   <img
                     src={
                       story.profileImageUrl
@@ -112,7 +129,7 @@ const Story = () => {
                     className='profile-image'
                     alt='프사'
                   />
-                </div>
+                </ProfileImageBox>
 
                 <div
                   className='story-username'
@@ -120,12 +137,12 @@ const Story = () => {
                 >
                   {story.username}
                 </div>
-              </div>
-              <div className='sl__item__img'>
+              </ListItemHeader>
+              <UploadImageBox>
                 <img src={`/images/${story.postImageUrl}`} alt='업로드 사진' />
-              </div>
-              <div className='sl__item__contents'>
-                <div className='sl__item__contents__icon'>
+              </UploadImageBox>
+              <ContentsWrapper>
+                <ContentsWrappeIcon>
                   {story.likeState ? (
                     <button
                       onClick={() => {
@@ -143,20 +160,29 @@ const Story = () => {
                       <i className='fas fa-heart' id='storyLikeIcon'></i>
                     </button>
                   )}
-                </div>
-                <span className='like'>
-                  <b id='storyLikeCount'>{story.likeCount}</b>likes
-                </span>
-                <div className='sl__item__contents__content'>
-                  <p>{story.caption}</p>
-                </div>
-                {story.comments.map((comment) => (
+                </ContentsWrappeIcon>
+                <Span className='like'>
+                  <b id='storyLikeCount'>좋아요{story.likeCount} 개</b>
+                </Span>
+                <ContentsBox>
+                  <div>
+                    <p>
+                      <strong>{story.username}</strong>
+                      &nbsp;
+                      {story.caption}
+                    </p>
+                  </div>
+                </ContentsBox>
+                <CommentsInfo>
+                  댓글{story.comments?.length}개 모두 보기
+                </CommentsInfo>
+                {/* {story.comments.map((comment) => (
                   <Comment
                     comment={comment}
                     onClick={() => deleteEvent(comment.contentId)}
                   />
-                ))}
-                <div className='sl__item__input'>
+                ))} */}
+                <InputBox>
                   <input
                     type='text'
                     placeholder='댓글 달기'
@@ -164,19 +190,19 @@ const Story = () => {
                     onChange={(e) => setContent(e.target.value)}
                     onKeyDown={(e) => handleOnKeyPress(e, story.imageId)}
                   />
-                  <button
+                  <Button
                     type='button'
                     onClick={() => handleSubmit(story.imageId)}
                   >
                     게시
-                  </button>
-                </div>
-              </div>
-            </div>
+                  </Button>
+                </InputBox>
+              </ContentsWrapper>
+            </ListItem>
           ))}
-        </article>
-      </section>
-    </main>
+        </StoryList>
+      </Section>
+    </Main>
   );
 };
 

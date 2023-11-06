@@ -16,7 +16,8 @@ export function produceAuthAPI<entityCreateProp, returnEntityType>(
       const res: any = await client.post(`/${apiPath}`, createPayload);
       return { entity: res.data };
     } catch (error: any) {
-      alert(error.response.data.data);
+      alert(error.response.data.message);
+      console.log("error", error);
       throw error;
     }
   };
@@ -136,6 +137,7 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
   }: {
     id: number | undefined;
   }): Promise<{ entity: returnEntityType }> {
+    console.log("id =>", id);
     try {
       const res: any = await client.get(`${apiPath}/${id}`, {
         headers: authHeader(),

@@ -26,14 +26,15 @@ const SignUp = () => {
       })
     ).entity;
     console.log("회원가입 결과 => ", res);
+    alert(res.message);
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setNickname("");
+    navigate("/signin");
     if (res.code === 1) {
-      alert(res.message);
-      setUsername("");
-      setPassword("");
-      setEmail("");
-      setNickname("");
-      navigate("/signin");
     } else {
+      console.log("회원가입 실패 ", res);
       alert(res.message);
     }
   };

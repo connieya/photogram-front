@@ -10,6 +10,7 @@ const Popular = () => {
 
   const fetchData = async () => {
     const res = (await fetchPopular()).entity;
+    console.log("res ==>", res);
     if (res.code === 1) {
       setPopularList(res.data);
     } else {

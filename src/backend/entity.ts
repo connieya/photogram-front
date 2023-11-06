@@ -25,7 +25,8 @@ export interface TokenDto {
 
 export interface UserAuth {
   tokenDto: TokenDto;
-  user: UserInfo;
+  // user: UserInfo;
+  userInfo: UserInfo;
 }
 
 export interface SignInResponse {

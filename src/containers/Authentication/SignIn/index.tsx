@@ -23,13 +23,17 @@ const Intro = () => {
         },
       })
     ).entity;
+    console.log("로그인 요청 ", res);
     if (res.code === 1) {
       sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
-      const id = res.data.user.id;
-      const username = res.data.user.username;
+      const id = res.data.userInfo.id;
+      const username = res.data.userInfo.username;
       dispatch(setUser({ id: id, username: username }));
       alert(res.message);
       navigate("/story");
+    } else {
+      alert(res.message);
+      console.log("로그인 실패 ", res);
     }
   };
 
