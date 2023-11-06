@@ -73,6 +73,7 @@
 }
 .profile .profile-right .subscribe ul {
   display: flex;
+  display: flex;
 }
 .profile .profile-right .subscribe ul li {
   font-weight: 50;
@@ -450,14 +451,7 @@
   width: 80px;
   text-align: center;
 }
-.modal-subscribed
-  .subscribed
-  .subscribed-list
-  .subscribed__item
-  .subscribed__img {
-  width: 80px;
-  text-align: center;
-}
+
 .modal-subscribed
   .subscribed
   .subscribed-list
