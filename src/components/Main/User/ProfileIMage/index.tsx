@@ -32,7 +32,7 @@ const ProfileImage = (props: { userInfo: UserProfile | undefined }) => {
     ).entity;
     if (res.code === 1) {
       setImageModal(false);
-      navigate(`/user/${userInfo?.user.id}`);
+      navigate(`/user/${userInfo?.userId}`);
       window.location.reload();
     }
   };

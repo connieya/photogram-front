@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./user.css";
-import {
-  fetchUseProfile,
-  followUser,
-  unFollowUser,
-} from "../../../backend/api";
-import { FollowDto, UserProfile } from "../../../backend/entity";
+import { fetchUseProfile } from "../../../backend/api";
+import { UserProfile } from "../../../backend/entity";
 import styled from "styled-components";
 import NameGroup from "./NameGroup";
 import ProfileImage from "./ProfileIMage";
 import FollowInfo from "./FollowInfo";
+import UploadImages from "./UploadImages";
 
 const User = () => {
   const navigate = useNavigate();
@@ -20,6 +16,7 @@ const User = () => {
 
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
+
     console.log("유저 정보 => ", res);
     if (res.code === 1) {
       setUserInfo(res.data);
@@ -77,41 +74,17 @@ const User = () => {
             <NameGroup />
             <FollowInfo userInfo={userInfo} />
             <UserInfoBox>
-              <p>{userInfo?.user.bio}</p>
+              <p>{userInfo?.bio}</p>
               <p>
-                <a
-                  href={userInfo?.user.website}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  {userInfo?.user.website}
+                <a href={userInfo?.website} target='_blank' rel='noreferrer'>
+                  {userInfo?.website}
                 </a>
               </p>
             </UserInfoBox>
           </ProfileRightBox>
         </ProfileContainer>
       </Section>
-      <section id='tab-content'>
-        <div className='profileContainer'>
-          <div id='tab-1-content' className='tab-content-item show'>
-            <div className='tab-1-content-inner'>
-              {/* {userInfo?.user.images.map((image) => (
-                <div className='img-box'>
-                  <a href='/'>
-                    <img src={`/images/${image.postImageUrl}`} />
-                  </a>
-                  <div className='comment'>
-                    <a href='#' className=''>
-                      <i className='fas fa-heart'></i>
-                      <span>0</span>
-                    </a>
-                  </div>
-                </div>
-              ))} */}
-            </div>
-          </div>
-        </div>
-      </section>
+      <UploadImages userId={Number(params.userId)} />
     </>
   );
 };

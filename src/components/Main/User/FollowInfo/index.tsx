@@ -21,7 +21,7 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
   const [followingListState, setFollowingListState] = useState<boolean>(false);
 
   const fetchFollowerList = async () => {
-    const res = (await fetchFollower({ id: userInfo?.user.id })).entity;
+    const res = (await fetchFollower({ id: userInfo?.userId })).entity;
     console.log("팔로워 리스트", res);
     if (res.code === 1) {
       setFollowerList(res.data);
@@ -29,7 +29,7 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
   };
 
   const fetchFollowingList = async () => {
-    const res = (await fetchFollowing({ id: userInfo?.user.id })).entity;
+    const res = (await fetchFollowing({ id: userInfo?.userId })).entity;
     console.log("팔로잉 리스트", res);
     if (res.code === 1) {
       setFollowingList(res.data);

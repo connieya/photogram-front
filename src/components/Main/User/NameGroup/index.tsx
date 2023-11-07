@@ -54,19 +54,19 @@ const NameGroup = () => {
   return (
     <>
       <NameGroupBox>
-        <h2>{userInfo?.user.nickname}</h2>
+        <h2>{userInfo?.nickname}</h2>
         {userInfo?.pageOwner ? (
           <Button onClick={() => navigate("/upload")}>게시물 등록</Button>
         ) : followState ? (
           <BlueButton
             onClick={() => {
-              unfollow(userInfo?.user.id);
+              unfollow(userInfo?.userId);
             }}
           >
             팔로우 취소
           </BlueButton>
         ) : (
-          <Button onClick={() => follow(userInfo?.user.id)}>팔로우 하기</Button>
+          <Button onClick={() => follow(userInfo?.userId)}>팔로우 하기</Button>
         )}
 
         <ModalButton onClick={() => setIsModalOpen(true)}>
@@ -78,7 +78,7 @@ const NameGroup = () => {
           <ModalBox>
             {userInfo?.pageOwner ? (
               <button
-                onClick={() => navigate(`/user/${userInfo?.user.id}/profile`)}
+                onClick={() => navigate(`/user/${userInfo?.userId}/profile`)}
               >
                 회원정보 변경
               </button>

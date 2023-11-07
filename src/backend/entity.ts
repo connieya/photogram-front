@@ -107,7 +107,11 @@ export interface UserProfile {
   followState: boolean;
   followingCount: number;
   followerCount: number;
-  user: UserInfo;
+  bio: string;
+  website: string;
+  userId: number;
+  nickname: string;
+  // user: UserInfo;
 }
 
 export interface ImageUploadRequest {
