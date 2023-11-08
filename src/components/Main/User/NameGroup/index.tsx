@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import {
-  fetchUseProfile,
-  followUser,
-  unFollowUser,
-} from "../../../../backend/api";
-import { UserProfile } from "../../../../backend/entity";
+import { fetchUseProfile } from "../../../../backend/api";
+import { followUser, unFollowUser } from "../../../../lib/api";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../../../recoil/user";
 
 const NameGroup = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState<UserProfile>();
   const [followState, setFollowState] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const userState = useRecoilValue(userInfoState);
+  const [pageOwner, setPageOwner] = useState<Boolean>(false);
   const params = useParams();
 
   const fetchData = async () => {
     const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
     if (res.code === 1) {
-      setUserInfo(res.data);
       setFollowState(res.data.followState);
     } else {
       alert(res.message);
@@ -27,18 +25,20 @@ const NameGroup = () => {
   };
 
   const follow = async (id: number | undefined) => {
-    const res = (await followUser({ id: id })).entity;
-    if (res.code === 1) {
+    const res = await followUser(id);
+    console.log("res =>", res);
+    if (res?.status === 200) {
       setFollowState(true);
-      alert(res.message);
+      alert(res?.data.message);
     }
   };
 
   const unfollow = async (id: number | undefined) => {
-    const res = (await unFollowUser({ id: id })).entity;
-    if (res.code === 1) {
+    const res = await unFollowUser(id);
+    console.log("res =>", res);
+    if (res?.status === 200) {
       setFollowState(false);
-      alert(res.message);
+      alert(res?.data.message);
     }
   };
 
@@ -48,25 +48,28 @@ const NameGroup = () => {
   };
 
   useEffect(() => {
+    setPageOwner(Number(params.userId) === userState.id);
     fetchData();
   }, []);
 
   return (
     <>
       <NameGroupBox>
-        <h2>{userInfo?.nickname}</h2>
-        {userInfo?.pageOwner ? (
+        <h2>{userState.nickname}</h2>
+        {pageOwner ? (
           <Button onClick={() => navigate("/upload")}>게시물 등록</Button>
         ) : followState ? (
           <BlueButton
             onClick={() => {
-              unfollow(userInfo?.userId);
+              unfollow(Number(params.userId));
             }}
           >
             팔로우 취소
           </BlueButton>
         ) : (
-          <Button onClick={() => follow(userInfo?.userId)}>팔로우 하기</Button>
+          <Button onClick={() => follow(Number(params.userId))}>
+            팔로우 하기
+          </Button>
         )}
 
         <ModalButton onClick={() => setIsModalOpen(true)}>
@@ -76,9 +79,11 @@ const NameGroup = () => {
       {isModalOpen ? (
         <ModalWrapper>
           <ModalBox>
-            {userInfo?.pageOwner ? (
+            {pageOwner ? (
               <button
-                onClick={() => navigate(`/user/${userInfo?.userId}/profile`)}
+                onClick={() =>
+                  navigate(`/user/${Number(params.userId)}/profile`)
+                }
               >
                 회원정보 변경
               </button>
@@ -101,7 +106,8 @@ export default NameGroup;
 
 const NameGroupBox = styled.div`
   display: flex;
-  margin-bottom: 20px;
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
   h2 {
     font-weight: normal;
     font-family: "Montserrat", sans-serif;

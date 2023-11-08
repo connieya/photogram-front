@@ -2,37 +2,37 @@ import React, { useState } from "react";
 import "../auth.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.jpg";
-import { SignInUser } from "../../../backend/api";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { setUser } from "../../../store/userSlice";
 import { FACEBOOK_AUTH_URL } from "../../../utils";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../recoil/user";
+import { signinUser } from "../../../lib/api";
 const Intro = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const signin = async (e: any) => {
     e.preventDefault();
-    const res = (
-      await SignInUser({
-        createPayload: {
-          username: username,
-          password: password,
-        },
-      })
-    ).entity;
+    const data = {
+      username,
+      password,
+    };
+    const res = await signinUser(data);
     console.log("로그인 요청 ", res);
-    if (res.code === 1) {
-      sessionStorage.setItem("access_token", res.data.tokenDto.accessToken);
-      const id = res.data.userInfo.id;
-      const username = res.data.userInfo.username;
-      dispatch(setUser({ id: id, username: username }));
-      alert(res.message);
+    if (res?.data.code === 1) {
+      console.log("tqtqtqttqtqtqtq");
+      sessionStorage.setItem(
+        "access_token",
+        res.data.data.tokenDto.accessToken
+      );
+      const id = res.data.data.userInfo.id;
+      const nickname = res.data.data.userInfo.nickname;
+      setUserInfo({ id, nickname });
+      alert(res.data.message);
       navigate("/story");
     } else {
-      alert(res.message);
+      alert(res.data.message);
       console.log("로그인 실패 ", res);
     }
   };

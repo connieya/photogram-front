@@ -50,12 +50,7 @@ const ProfileImage = (props: { userInfo: UserProfile | undefined }) => {
               style={{ display: "none" }}
             />
           </form>
-          <img
-            className='profile-image'
-            src={profileUrl}
-            alt='프사'
-            id='userProfileImage'
-          />
+          <Image src={profileUrl} alt='프사' />
         </ProfileBox>
       </ProfileWrapper>
       {imageModal ? (
@@ -95,12 +90,13 @@ const ProfileBox = styled.div`
   border-radius: 50%;
   position: relative;
   cursor: pointer;
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid #f2eff3;
-  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #f2eff3;
 `;
 
 const ModalWrapper = styled.div`
@@ -113,6 +109,7 @@ const ModalWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const ModalBox = styled.div`

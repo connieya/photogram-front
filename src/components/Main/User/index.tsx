@@ -10,7 +10,6 @@ import UploadImages from "./UploadImages";
 
 const User = () => {
   const navigate = useNavigate();
-  const [followState, setFollowState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const params = useParams();
 
@@ -20,7 +19,6 @@ const User = () => {
     console.log("유저 정보 => ", res);
     if (res.code === 1) {
       setUserInfo(res.data);
-      setFollowState(res.data.followState);
     } else {
       alert(res.message);
       navigate("/signin");

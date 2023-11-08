@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FollowDto, UserProfile } from "../../../../backend/entity";
 import {
@@ -7,21 +7,19 @@ import {
   followUser,
   unFollowUser,
 } from "../../../../backend/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
   const { userInfo } = props;
   const navigate = useNavigate();
   const [followingModal, setFollowingModal] = useState<boolean>(false);
-  const [followState, setFollowState] = useState<boolean>(false);
   const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followerList, setFollowerList] = useState<FollowDto[]>();
   const [followingList, setFollowingList] = useState<FollowDto[]>();
-  const [followerListState, setFollwerListState] = useState<boolean>(false);
-  const [followingListState, setFollowingListState] = useState<boolean>(false);
+  const params = useParams();
 
   const fetchFollowerList = async () => {
-    const res = (await fetchFollower({ id: userInfo?.userId })).entity;
+    const res = (await fetchFollower({ id: Number(params.userId) })).entity;
     console.log("팔로워 리스트", res);
     if (res.code === 1) {
       setFollowerList(res.data);
@@ -29,7 +27,7 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
   };
 
   const fetchFollowingList = async () => {
-    const res = (await fetchFollowing({ id: userInfo?.userId })).entity;
+    const res = (await fetchFollowing({ id: Number(params.userId) })).entity;
     console.log("팔로잉 리스트", res);
     if (res.code === 1) {
       setFollowingList(res.data);
@@ -38,18 +36,15 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
 
   const openFollowingModal = () => {
     setFollowingModal(true);
-    fetchFollowingList();
   };
 
   const openFollowerModal = () => {
     setFollowerModal(true);
-    fetchFollowerList();
   };
 
   const follow = async (id: number | undefined) => {
     const res = (await followUser({ id: id })).entity;
     if (res.code === 1) {
-      setFollowState(true);
       alert(res.message);
     } else {
       alert(res.message);
@@ -60,10 +55,14 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
   const unfollow = async (id: number | undefined) => {
     const res = (await unFollowUser({ id: id })).entity;
     if (res.code === 1) {
-      setFollowState(false);
       alert(res.message);
     }
   };
+
+  useEffect(() => {
+    fetchFollowerList();
+    fetchFollowingList();
+  }, []);
 
   return (
     <div>
@@ -75,13 +74,13 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
           <FollowInfoItem>
             팔로워{" "}
             <span onClick={() => openFollowerModal()}>
-              {userInfo?.followerCount}
+              {followerList?.length}
             </span>
           </FollowInfoItem>
           <FollowInfoItem>
             팔로잉{" "}
             <span onClick={() => openFollowingModal()}>
-              {userInfo?.followingCount}
+              {followingList?.length}
             </span>
           </FollowInfoItem>
         </FollowInfoList>
@@ -124,7 +123,6 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
                         <BlueButton
                           onClick={() => {
                             unfollow(follower.id);
-                            setFollwerListState((prev) => !prev);
                           }}
                         >
                           팔로우 취소
@@ -135,7 +133,6 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
                         <Button
                           onClick={() => {
                             follow(follower.id);
-                            setFollwerListState((prev) => !prev);
                           }}
                         >
                           팔로우 하기
@@ -190,7 +187,6 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
                         <BlueButton
                           onClick={() => {
                             unfollow(follower.id);
-                            setFollowingListState((prev) => !prev);
                           }}
                         >
                           팔로우 취소
@@ -201,7 +197,6 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
                         <Button
                           onClick={() => {
                             follow(follower.id);
-                            setFollowingListState((prev) => !prev);
                           }}
                         >
                           팔로우 하기
@@ -254,6 +249,7 @@ const FollowerModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const FollowerModalWrapper = styled.div`

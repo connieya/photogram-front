@@ -1,7 +1,5 @@
 import React from "react";
 import "./index.css";
-import { UserInfo } from "../../../backend/entity";
-import { selectId } from "../../../store/userSlice";
 import { useSelector } from "react-redux";
 
 type CommentProps = {
@@ -17,10 +15,10 @@ interface ChildProps {
 }
 
 const Comment: React.FC<ChildProps> = (props) => {
-  const userId = useSelector(selectId);
+  // const userId = useSelector(selectId);
   return (
     <div>
-      <div className='sl__item__contents__comment'>
+      {/* <div className='sl__item__contents__comment'>
         <p>
           <b>{props.comment.username} :</b>
           {props.comment.content}
@@ -32,7 +30,7 @@ const Comment: React.FC<ChildProps> = (props) => {
         ) : (
           ""
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
