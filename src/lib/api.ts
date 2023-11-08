@@ -3,8 +3,8 @@ import { client } from "../backend/axios";
 import { SignInRequest, SignInResponse } from "../backend/entity";
 const token = sessionStorage.getItem("access_token");
 
-export const fetchUserImages = async (userId: number) => {
-  return await client.get("/api/user/image", {
+export const fetchUserImages = async (userId: number | undefined) => {
+  return await client.get("/api/user/images", {
     params: {
       userId,
     },
@@ -45,4 +45,16 @@ export const signinUser = async (
     alert(error?.response.data.message);
     throw error;
   }
+};
+
+export const fetchUserList = async () => {
+  return await client.get("/api/users", {
+    headers: { Authorization: "Bearer " + token },
+  });
+};
+
+export const fetchUseProfile = async (id: number) => {
+  return await client.get(`/api/user/${id}`, {
+    headers: { Authorization: "Bearer " + token },
+  });
 };

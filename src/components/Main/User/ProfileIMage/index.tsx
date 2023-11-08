@@ -1,19 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { uploadProfileImage } from "../../../../backend/api";
-import { useNavigate } from "react-router-dom";
-import { UserProfile } from "../../../../backend/entity";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../../../recoil/user";
 
-const ProfileImage = (props: { userInfo: UserProfile | undefined }) => {
-  const { userInfo } = props;
+interface ProfileImageProps {
+  profileImgUrl: string | undefined; // profileImgUrl을 props로 받기 위해 정의
+}
+
+const ProfileImage = ({ profileImgUrl }: ProfileImageProps) => {
   const navigate = useNavigate();
   const [file, setFile] = useState<string>("");
   const [imageModal, setImageModal] = useState<boolean>(false);
   const fileUpload = useRef<HTMLInputElement>(null);
   const [profileUrl, setProfileUrl] = useState("/images/basic.jpg");
+  const [pageOwner, setPageOwner] = useState<Boolean>(false);
+  const userId = useRecoilValue(userInfoState);
+  const params = useParams();
 
   const profileImageUpload = async () => {
-    if (!userInfo?.pageOwner) {
+    if (!pageOwner) {
       alert("권한이 없습니다.");
       return;
     }
@@ -32,10 +39,18 @@ const ProfileImage = (props: { userInfo: UserProfile | undefined }) => {
     ).entity;
     if (res.code === 1) {
       setImageModal(false);
-      navigate(`/user/${userInfo?.userId}`);
+      navigate(`/user/${Number(params.userId)}`);
       window.location.reload();
     }
   };
+
+  useEffect(() => {
+    setPageOwner(Number(params.userId) === userId);
+    console.log("프로필 이미지 컴포넌트 ", profileImgUrl);
+    if (profileImgUrl) {
+      setProfileUrl(`/images/${profileImgUrl}`);
+    }
+  }, [profileImgUrl]);
 
   return (
     <>

@@ -1,58 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchUseProfile } from "../../../backend/api";
-import { UserProfile } from "../../../backend/entity";
 import styled from "styled-components";
 import NameGroup from "./NameGroup";
 import ProfileImage from "./ProfileIMage";
 import FollowInfo from "./FollowInfo";
 import UploadImages from "./UploadImages";
+import { UserProfileInfo } from "../../../lib/type";
+import { fetchUseProfile } from "../../../lib/api";
 
 const User = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState<UserProfile>();
+  const [userInfo, setUserInfo] = useState<UserProfileInfo>();
+  const [userId, setUserId] = useState<number>();
   const params = useParams();
 
   const fetchData = async () => {
-    const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
+    const res = await fetchUseProfile(Number(params.userId));
 
-    console.log("유저 정보 => ", res);
-    if (res.code === 1) {
-      setUserInfo(res.data);
+    console.log("유저 정보 => ", res.data.data);
+    if (res.data.code === 1) {
+      setUserInfo(res.data.data);
     } else {
-      alert(res.message);
+      alert(res.data.message);
       navigate("/signin");
     }
   };
 
-  // useEffect(() => {
-  //   fetchFollowerList();
-  //   fetchData();
-  //   console.log("!!!", followerListState);
-  // }, [followerListState]);
-
-  // useEffect(() => {
-  //   fetchFollowingList();
-  //   fetchData();
-  // }, [followingListState]);
-
-  // useEffect(() => {
-  //   if (userInfo?.user.profileImageUrl) {
-  //     const url = `/images/${userInfo?.user.profileImageUrl}`;
-  //     setProfileUrl(url);
-  //   }
-  // }, [userInfo]);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [followState]);
-
   useEffect(() => {
-    console.log("params =>", params);
     const token = sessionStorage.getItem("access_token");
-    // fetchFollowerList();
-    // fetchFollowingList();
-    // console.log("@@@", followerListState);
+    setUserId(Number(params.userId));
     if (token === null) {
       alert("로그인이 필요합니다.");
       navigate("/signin");
@@ -66,11 +42,14 @@ const User = () => {
       <Section>
         <ProfileContainer>
           <ProfileLeftWrapper>
-            <ProfileImage userInfo={userInfo} />
+            <ProfileImage profileImgUrl={userInfo?.profileImageUrl} />
           </ProfileLeftWrapper>
           <ProfileRightBox>
-            <NameGroup />
-            <FollowInfo userInfo={userInfo} />
+            <NameGroup
+              nickname={userInfo?.nickname}
+              isFollow={userInfo?.followState}
+            />
+            <FollowInfo imgCount={userInfo?.imageCount} />
             <UserInfoBox>
               <p>{userInfo?.bio}</p>
               <p>
@@ -82,7 +61,7 @@ const User = () => {
           </ProfileRightBox>
         </ProfileContainer>
       </Section>
-      <UploadImages userId={Number(params.userId)} />
+      <UploadImages userId={userId} />
     </>
   );
 };

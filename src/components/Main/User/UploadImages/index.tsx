@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { UserImageInfo } from "../../../../lib/type";
 import { fetchUserImages } from "../../../../lib/api";
 
-const UploadImages = (props: { userId: number }) => {
+const UploadImages = (props: { userId: number | undefined }) => {
   const { userId } = props;
   const [userImages, setUserImages] = useState<UserImageInfo[]>();
   const fetchData = async () => {
@@ -14,7 +14,7 @@ const UploadImages = (props: { userId: number }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [userId]);
 
   return (
     <ImageContainer>

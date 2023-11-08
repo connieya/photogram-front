@@ -27,8 +27,7 @@ const Intro = () => {
         res.data.data.tokenDto.accessToken
       );
       const id = res.data.data.userInfo.id;
-      const nickname = res.data.data.userInfo.nickname;
-      setUserInfo({ id, nickname });
+      setUserInfo(id);
       alert(res.data.message);
       navigate("/story");
     } else {

@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchUseProfile } from "../../../../backend/api";
 import { followUser, unFollowUser } from "../../../../lib/api";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../../../../recoil/user";
+import { followFlag } from "../../../../recoil/follow";
 
-const NameGroup = () => {
+type NameGroupProps = {
+  nickname: string | undefined;
+  isFollow: boolean | undefined;
+};
+
+const NameGroup = ({ nickname, isFollow }: NameGroupProps) => {
   const navigate = useNavigate();
-  const [followState, setFollowState] = useState<boolean>(false);
+  const [followState, setFollowState] = useState<boolean | undefined>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const userState = useRecoilValue(userInfoState);
+  const userId = useRecoilValue(userInfoState);
   const [pageOwner, setPageOwner] = useState<Boolean>(false);
-  const params = useParams();
+  const [flag, setFlag] = useRecoilState<Boolean>(followFlag);
 
-  const fetchData = async () => {
-    const res = (await fetchUseProfile({ id: Number(params.userId) })).entity;
-    if (res.code === 1) {
-      setFollowState(res.data.followState);
-    } else {
-      alert(res.message);
-      navigate("/signin");
-    }
-  };
+  const params = useParams();
 
   const follow = async (id: number | undefined) => {
     const res = await followUser(id);
     console.log("res =>", res);
     if (res?.status === 200) {
       setFollowState(true);
+      setFlag((prev) => !prev);
       alert(res?.data.message);
     }
   };
@@ -38,6 +36,7 @@ const NameGroup = () => {
     console.log("res =>", res);
     if (res?.status === 200) {
       setFollowState(false);
+      setFlag((prev) => !prev);
       alert(res?.data.message);
     }
   };
@@ -48,14 +47,14 @@ const NameGroup = () => {
   };
 
   useEffect(() => {
-    setPageOwner(Number(params.userId) === userState.id);
-    fetchData();
+    setFollowState(isFollow);
+    setPageOwner(Number(params.userId) === userId);
   }, []);
 
   return (
     <>
       <NameGroupBox>
-        <h2>{userState.nickname}</h2>
+        <h2>{nickname}</h2>
         {pageOwner ? (
           <Button onClick={() => navigate("/upload")}>게시물 등록</Button>
         ) : followState ? (
@@ -149,6 +148,7 @@ const ModalWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const ModalBox = styled.div`

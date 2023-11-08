@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Story from "../Images/Story";
 import Profile from "./Profile";
 import User from "./User";

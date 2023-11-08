@@ -137,7 +137,6 @@ export function produceReadAPI<returnEntityType>(apiPath: string) {
   }: {
     id: number | undefined;
   }): Promise<{ entity: returnEntityType }> {
-    console.log("id =>", id);
     try {
       const res: any = await client.get(`${apiPath}/${id}`, {
         headers: authHeader(),

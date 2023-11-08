@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FollowDto, UserProfile } from "../../../../backend/entity";
+import { FollowDto } from "../../../../backend/entity";
 import {
   fetchFollower,
   fetchFollowing,
@@ -8,19 +8,21 @@ import {
   unFollowUser,
 } from "../../../../backend/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { followFlag } from "../../../../recoil/follow";
 
-const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
-  const { userInfo } = props;
+const FollowInfo = (props: { imgCount: number | undefined }) => {
+  const { imgCount } = props;
   const navigate = useNavigate();
   const [followingModal, setFollowingModal] = useState<boolean>(false);
   const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followerList, setFollowerList] = useState<FollowDto[]>();
   const [followingList, setFollowingList] = useState<FollowDto[]>();
   const params = useParams();
+  const flag = useRecoilValue(followFlag);
 
   const fetchFollowerList = async () => {
     const res = (await fetchFollower({ id: Number(params.userId) })).entity;
-    console.log("팔로워 리스트", res);
     if (res.code === 1) {
       setFollowerList(res.data);
     }
@@ -28,7 +30,6 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
 
   const fetchFollowingList = async () => {
     const res = (await fetchFollowing({ id: Number(params.userId) })).entity;
-    console.log("팔로잉 리스트", res);
     if (res.code === 1) {
       setFollowingList(res.data);
     }
@@ -64,12 +65,16 @@ const FollowInfo = (props: { userInfo: UserProfile | undefined }) => {
     fetchFollowingList();
   }, []);
 
+  useEffect(() => {
+    fetchFollowerList();
+  }, [flag]);
+
   return (
     <div>
       <FollowInfoBox>
         <FollowInfoList>
           <FollowInfoItem>
-            게시물 <span>{userInfo?.imageCount}</span>
+            게시물 <span>{imgCount}</span>
           </FollowInfoItem>
           <FollowInfoItem>
             팔로워{" "}

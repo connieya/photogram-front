@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
-import { UserInfo } from "../../backend/entity";
-import { fetchUsers } from "../../backend/api";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../../recoil/user";
 import styled from "styled-components";
+import { fetchUserList } from "../../lib/api";
+import { UserInfo } from "../../lib/type";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,12 +14,12 @@ const Header = () => {
   const userId = useRecoilValue(userInfoState);
 
   const getUserList = async () => {
-    const res = (await fetchUsers()).entity;
-    console.log("유저 리스트 => ", res);
-    if (res.code === 1) {
-      setUserList(res.data);
+    const response = await fetchUserList();
+    console.log("Response = ", response);
+
+    if (response.data.code === 1) {
+      setUserList(response.data.data);
     }
-    console.log("userId === > ", userId);
   };
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Header = () => {
               </IconWrapper>
             </IconItem>
             <IconItem>
-              <IconWrapper onClick={() => navigate(`/user/${userId.id}`)}>
+              <IconWrapper onClick={() => navigate(`/user/${userId}`)}>
                 <i className='far fa-user'></i>
               </IconWrapper>
             </IconItem>
