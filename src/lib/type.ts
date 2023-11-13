@@ -16,10 +16,21 @@ export type UserInfo = {
 
 // 유저 프로필 화면 정보
 export type UserProfileInfo = {
+  userId: number;
   nickname: string;
   profileImageUrl: string;
   followState: boolean;
   website: string;
   bio: string;
   imageCount: number;
+};
+
+export type ImagePopularDto = {
+  userId: number;
+  id: number;
+  caption: string;
+  postImageUrl: string;
+  likeCount: number;
+  username: string;
+  profileImageUrl: string;
 };

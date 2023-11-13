@@ -17,22 +17,15 @@ import {
   ImageUploadRequest,
   ImageUploadResponsee,
   LikesResponse,
-  SignInRequest,
-  SignInResponse,
   SignUpRequest,
   SignUpResponse,
   StoryResponse,
   UnLikesResponse,
-  UserListResponse,
   UserProfileImageResponse,
   UserProfileResponse,
   UserProfileUpdateResponse,
   UserUpdateRequest,
 } from "./entity";
-
-export const SignInUser = produceAuthAPI<SignInRequest, SignInResponse>(
-  "auth/signin"
-);
 
 export const SignUpUser = produceAuthAPI<SignUpRequest, SignUpResponse>(
   "auth/signup"
@@ -45,9 +38,9 @@ export const fetchUseProfile = produceReadAPI<UserProfileResponse>("api/user");
 export const fetchUserProfileUpdate =
   produceGetAPI<UserProfileUpdateResponse>("api/user/profile");
 
-export const followUser = produceQueryAPI<FollowResponse>("api/subscribe");
+export const followUser = produceQueryAPI<FollowResponse>("api/follow");
 
-export const unFollowUser = produceDeleteAPI<FollowResponse>("api/subscribe");
+export const unFollowUser = produceDeleteAPI<FollowResponse>("api/follow");
 
 export const likeImage = produceQueryAPI<LikesResponse>("api/likes");
 
@@ -75,9 +68,5 @@ export const fetchFollowing =
 export const addComment = produceCreateAPI<CommentRequest, CommentResponse>(
   "api/comment"
 );
-
-export const fetchPopular = produceGetAPI<StoryResponse>("api/image/popular");
-
-export const fetchUsers = produceGetAPI<UserListResponse>("api/users");
 
 export const deleteComment = produceDeleteAPI<CommentResponse>("api/comment");

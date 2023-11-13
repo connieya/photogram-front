@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../auth.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.jpg";
@@ -21,7 +21,6 @@ const Intro = () => {
     const res = await signinUser(data);
     console.log("로그인 요청 ", res);
     if (res?.data.code === 1) {
-      console.log("tqtqtqttqtqtqtq");
       sessionStorage.setItem(
         "access_token",
         res.data.data.tokenDto.accessToken
@@ -35,6 +34,13 @@ const Intro = () => {
       console.log("로그인 실패 ", res);
     }
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("access_token");
+    if (token) {
+      navigate(-1);
+    }
+  }, []);
 
   return (
     <div className='container'>

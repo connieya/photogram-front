@@ -58,3 +58,9 @@ export const fetchUseProfile = async (id: number) => {
     headers: { Authorization: "Bearer " + token },
   });
 };
+
+export const fetchPopular = async () => {
+  return await client.get("/api/image/popular", {
+    headers: { Authorization: "Bearer " + token },
+  });
+};

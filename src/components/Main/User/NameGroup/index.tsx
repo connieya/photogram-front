@@ -47,9 +47,10 @@ const NameGroup = ({ nickname, isFollow }: NameGroupProps) => {
   };
 
   useEffect(() => {
+    console.log("팔로우 여부 => ", isFollow);
     setFollowState(isFollow);
     setPageOwner(Number(params.userId) === userId);
-  }, []);
+  }, [isFollow]);
 
   return (
     <>

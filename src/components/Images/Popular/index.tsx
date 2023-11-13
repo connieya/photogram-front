@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { fetchPopular } from "../../../backend/api";
 import { useNavigate } from "react-router-dom";
-import { StoryData } from "../../../backend/entity";
-import "./index.css";
+import styled from "styled-components";
+import { ImagePopularDto } from "../../../lib/type";
+import { fetchPopular } from "../../../lib/api";
 
 const Popular = () => {
   const navigate = useNavigate();
-  const [popularList, setPopularList] = useState<StoryData[]>([]);
+  const [popularList, setPopularList] = useState<ImagePopularDto[]>([]);
 
   const fetchData = async () => {
-    const res = (await fetchPopular()).entity;
-    console.log("res ==>", res);
-    if (res.code === 1) {
-      setPopularList(res.data);
-    } else {
-      alert(res.message);
-      navigate("/signin");
-    }
+    const res = await fetchPopular();
+    setPopularList(res?.data.data);
   };
 
   useEffect(() => {
@@ -24,20 +18,19 @@ const Popular = () => {
   }, []);
 
   return (
-    <main className='popular'>
-      <div className='exploreContainer'>
-        <div className='popular-gallery'>
+    <MainLayout>
+      <PopularContainer>
+        <PopularWrapper>
           {popularList.map((image) => (
-            <div className='gallery-container'>
-              <div className='profile_header'>
+            <PopularList>
+              <ProfileWrapper>
                 <div>
-                  <img
+                  <ProfileImage
                     src={
                       image.profileImageUrl
                         ? `/images/${image.profileImageUrl}`
                         : "/images/basic.jpg"
                     }
-                    className='user-profile'
                     alt='프사'
                   />
                 </div>
@@ -47,21 +40,60 @@ const Popular = () => {
                 >
                   {image.username}
                 </div>
-              </div>
+              </ProfileWrapper>
               <div className='img-box'>
-                <img
-                  className='p-img'
-                  src={`/images/${image.postImageUrl}`}
-                  alt='이미지'
-                />
+                <Image src={`/images/${image.postImageUrl}`} alt='이미지' />
               </div>
               <p>좋아요 : {image.likeCount}개</p>
-            </div>
+            </PopularList>
           ))}
-        </div>
-      </div>
-    </main>
+        </PopularWrapper>
+      </PopularContainer>
+    </MainLayout>
   );
 };
 
 export default Popular;
+
+const MainLayout = styled.main`
+  width: 100%;
+  padding-top: 84px;
+  padding-bottom: 30px;
+`;
+
+const PopularContainer = styled.div`
+  width: 850px;
+  margin: 0 auto;
+  height: 100%;
+`;
+
+const PopularWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 15px;
+`;
+
+const PopularList = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const ProfileWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 220px;
+`;
