@@ -5,6 +5,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const { updateState }: any = recoilPersist();
 const root = ReactDOM.createRoot(
@@ -12,8 +13,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <RecoilRoot initializeState={updateState}>
-      <App />
-    </RecoilRoot>
+    <ChakraProvider>
+      <RecoilRoot initializeState={updateState}>
+        <App />
+      </RecoilRoot>
+    </ChakraProvider>
   </BrowserRouter>
 );
