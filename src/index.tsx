@@ -13,10 +13,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <ChakraProvider>
-      <RecoilRoot initializeState={updateState}>
+    <RecoilRoot initializeState={updateState}>
+      <ChakraProvider>
         <App />
-      </RecoilRoot>
-    </ChakraProvider>
+      </ChakraProvider>
+    </RecoilRoot>
   </BrowserRouter>
 );
