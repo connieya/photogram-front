@@ -11,9 +11,11 @@ const Sidebar = () => {
 
   const handleTabClick = (title: string) => {
     setAtiveTab(title);
-    // if (title === "profile") {
-    //   navigate("/username");
-    // }
+    if (title === "Profile") {
+      navigate("/username");
+    } else if (title === "Home") {
+      navigate("/");
+    }
   };
 
   return (
