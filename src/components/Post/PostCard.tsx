@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDisclosure } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
@@ -15,14 +16,10 @@ const PostCard = () => {
   const [showDropDown, setShowDropDown] = useState<boolean>();
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
   const [isSaved, setIsSaved] = useState<boolean>();
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const openModal = () => {
-    setShowModal(true);
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Function to close the modal
-  const closeModal = () => {
-    setShowModal(false);
+  const handleOpenCommentModal = () => {
+    onOpen();
   };
 
   const handleSavePost = () => {
@@ -85,7 +82,10 @@ const PostCard = () => {
                 className="text-2xl hover:opacity-50 cursor-pointer"
               />
             )}
-            <FaRegComment className="text-xl hover:opacity-50 cursor-pointer" />
+            <FaRegComment
+              onClick={handleOpenCommentModal}
+              className="text-xl hover:opacity-50 cursor-pointer"
+            />
             <RiSendPlaneLine className="text-xl hover:opacity-50 cursor-pointer" />
           </div>
           <div className="cursor-pointer">
@@ -104,7 +104,10 @@ const PostCard = () => {
         </div>
         <div className="w-full py-2 px-5">
           <p>좋아요 10</p>
-          <p onClick={openModal} className="opacity-50 py-2 cursor-pointer">
+          <p
+            onClick={handleOpenCommentModal}
+            className="opacity-50 py-2 cursor-pointer"
+          >
             댓글 10개 모두 보기
           </p>
         </div>
@@ -120,8 +123,8 @@ const PostCard = () => {
         </div>
       </div>
       <CommentModal
-        isOpen={showModal}
-        onClose={closeModal}
+        isOpen={isOpen}
+        onClose={onClose}
         isSaved={isSaved}
         isPostLiked={isPostLiked}
         handlePostLike={handlePostLike}
