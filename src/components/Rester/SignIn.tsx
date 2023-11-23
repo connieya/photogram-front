@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
     .email("잘못된 이메일 형식입니다.")
     .required("이메일을 입력해주세요."),
   password: Yup.string()
-    .min(4, "비밀번호는 최소 8자리 이상 입력해야 합니다.")
+    .min(4, "비밀번호는 최소 4자리 이상 입력해야 합니다.")
     .required("비밀번호를 입력해주세요."),
 });
 
@@ -32,7 +32,9 @@ const SignIn = () => {
     password: "",
   };
 
-  const handleSubmit = (values: FormValues) => {};
+  const handleSubmit = (values: FormValues) => {
+    console.log("values= >", values);
+  };
   return (
     <div>
       <div className="border">
@@ -53,13 +55,15 @@ const SignIn = () => {
                 <Field name="email">
                   {({ field, form }: FieldProps<string, FormValues>) => (
                     <FormControl
-                    // isInvalid={form?.errors?.email && form?.touched?.email}
+                      isInvalid={
+                        !!(form?.errors?.email && form?.touched?.email)
+                      }
                     >
                       <Input
                         className="w-full "
                         {...field}
-                        id="emaail"
-                        placeholder="이메일을 입력하세요"
+                        id="email"
+                        placeholder="이메일"
                       ></Input>
                       <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                     </FormControl>
@@ -69,13 +73,16 @@ const SignIn = () => {
                 <Field name="password">
                   {({ field, form }: FieldProps<string, FormValues>) => (
                     <FormControl
-                    // isInvalid={form.errors.password && form.touched.password}
+                      isInvalid={
+                        !!(form?.errors?.password && form?.touched?.password)
+                      }
                     >
                       <Input
                         className="w-full "
                         {...field}
                         id="password"
-                        placeholder="이메일을 입력하세요"
+                        type="password"
+                        placeholder="비밀번호"
                       ></Input>
                       <FormErrorMessage>
                         {form.errors.password}
@@ -99,7 +106,7 @@ const SignIn = () => {
         </Box>
       </div>
       <div className="border w-full border-slate-300 mt-5">
-        <p className="text-center py-2">
+        <p className="text-center py-2 text-sm">
           계정이 없으신가요?{" "}
           <span
             onClick={() => navigate("/signup")}
