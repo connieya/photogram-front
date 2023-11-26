@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { client } from "../backend/axios";
 import { SignInRequest, SignInResponse } from "../backend/entity";
+import { SignUpReqDto } from "./type";
 const token = sessionStorage.getItem("access_token");
 
 export const fetchUserImages = async (userId: number | undefined) => {
@@ -32,18 +33,6 @@ export const unFollowUser = async (id: number | undefined) => {
   } catch (e) {
     alert("오류가 발생했습니다.");
     console.log("error = ", e);
-  }
-};
-
-export const signinUser = async (
-  data: SignInRequest
-): Promise<AxiosResponse<SignInResponse>> => {
-  try {
-    return await client.post("/auth/signin", data);
-  } catch (error: any) {
-    console.log("e = ", error);
-    alert(error?.response.data.message);
-    throw error;
   }
 };
 

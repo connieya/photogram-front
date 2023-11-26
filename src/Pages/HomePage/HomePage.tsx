@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StoryCircle from "../../components/Story/StoryCircle";
 import HomeRight from "../../components/HomeRight/HomeRight";
 import PostCard from "../../components/Post/PostCard";
+import { useRecoilState } from "recoil";
+import { loginUser } from "../../recoil/user";
 
 const HomePage = () => {
+  const [userInfo, setUserInfo] = useRecoilState(loginUser);
+
+  useEffect(() => {}, []);
+
   return (
     <div>
       <div className="mt-10 flex w-[100%] justify-center">

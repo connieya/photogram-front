@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.jpg";
 import React from "react";
+import { signUpUser } from "../../lib/Auth/api_auth";
 
 interface FormValues {
   email: string;
@@ -25,7 +26,9 @@ const validationSchema = Yup.object().shape({
     .min(4, "비밀번호는 최소 4자리 이상 입력해야 합니다.")
     .required("비밀번호를 입력해주세요."),
   name: Yup.string().required("성명을 입력해주세요."),
-  username: Yup.string().required("사용자 이름을 입력해주세요."),
+  username: Yup.string()
+    .required("사용자 이름을 입력해주세요.")
+    .matches(/^[a-zA-Z]+$/, "영문자만 입력 가능합니다."),
 });
 
 const SignUp = () => {
@@ -37,8 +40,18 @@ const SignUp = () => {
     password: "",
   };
 
-  const handleSignInSubmit = (values: FormValues) => {
-    console.log("회원 가입 =>", values);
+  const handleSignInSubmit = async (values: FormValues) => {
+    try {
+      const response = await signUpUser(values);
+      if (response.data.code === 1001) {
+        alert(response.data.message);
+        navigate("/login");
+      }
+      console.log("회원 가입 요청 ", response);
+    } catch (error: any) {
+      alert(error?.response?.data.message);
+      console.log("error ", error?.response);
+    }
   };
   return (
     <div>

@@ -34,3 +34,18 @@ export type ImagePopularDto = {
   username: string;
   profileImageUrl: string;
 };
+
+// 회원가입 요청
+export type SignUpReqDto = {
+  username: string;
+  email: string;
+  password: string;
+  name: string;
+};
+
+// 이미지 업로드
+export type ImageUploadDto = {
+  file?: File;
+  caption?: string;
+  location?: string;
+};

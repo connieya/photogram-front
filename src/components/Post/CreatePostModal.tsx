@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDisclosure } from "@chakra-ui/react";
 import { FaPhotoVideo } from "react-icons/fa";
 import { GrEmoji } from "react-icons/gr";
 import { GoLocation } from "react-icons/go";
@@ -11,6 +10,10 @@ import {
   ModalBody,
 } from "@chakra-ui/react";
 import "./CreatePostModal.css";
+import { uploadImage } from "../../lib/Image/api_img";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { loginUser } from "../../recoil/user";
 
 interface CommentModalProps {
   isOpen: boolean;
@@ -18,10 +21,39 @@ interface CommentModalProps {
 }
 
 const CreatePostModal: React.FC<CommentModalProps> = ({ isOpen, onClose }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [file, setFile] = useState<File | null>();
+  const [file, setFile] = useState<File>();
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [userInfo, setUserInfo] = useRecoilState(loginUser);
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    console.log("file ", file, caption, location);
+    const data = {
+      file: file,
+      caption: caption,
+      location: location,
+    };
+    try {
+      const response = await uploadImage(data);
+      console.log("response = ", response);
+      if (response.data.code === 1003) {
+        alert(response.data.message);
+        navigate("/");
+        setFile(undefined);
+        onClose();
+      }
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        alert("다시 로그인 해주세요");
+        localStorage.removeItem("access_token");
+        setUserInfo(undefined);
+        navigate("/login");
+      }
+      console.log("이미지 업로드 실패", error.response);
+    }
+  };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -52,8 +84,10 @@ const CreatePostModal: React.FC<CommentModalProps> = ({ isOpen, onClose }) => {
       ) {
         setFile(file);
       } else {
-        setFile(null);
-        alert("이미지 또는 비디오만 선택하세요");
+        setFile(undefined);
+        alert(
+          "이미지 또는 비디오만 Argument of type 'null' is not assignable to parameter of type 'SetStateAction<File |선택하세요"
+        );
       }
     }
   };
@@ -64,18 +98,26 @@ const CreatePostModal: React.FC<CommentModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div>
-      <Modal size={"4xl"} isOpen={isOpen} onClose={onClose}>
+      <Modal
+        size={"4xl"}
+        isOpen={isOpen}
+        onClose={() => {
+          setFile(undefined);
+          onClose();
+        }}
+      >
         <ModalOverlay />
         <ModalContent>
           <div className="flex justify-between py-1 px-10 items-center">
             <p>새 게시물 만들기</p>
             <Button
+              onClick={handleSubmit}
               className=""
               variant={"ghost"}
               size="sm"
               colorScheme={"blue"}
             >
-              Share
+              공유
             </Button>
           </div>
           <hr />
@@ -145,6 +187,7 @@ const CreatePostModal: React.FC<CommentModalProps> = ({ isOpen, onClose }) => {
                     type="text"
                     placeholder="location"
                     name="location"
+                    onChange={(e) => setLocation(e.target.value)}
                   />
                   <GoLocation />
                 </div>

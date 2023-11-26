@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../assets/logo.jpg";
 import {
   Box,
@@ -10,16 +10,17 @@ import {
 import { Formik, Field, Form, FieldProps } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { loginUser } from "../../recoil/user";
+import { signinUser } from "../../lib/Auth/api_auth";
 
 interface FormValues {
-  email: string;
+  username: string;
   password: string;
 }
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("잘못된 이메일 형식입니다.")
-    .required("이메일을 입력해주세요."),
+  username: Yup.string().required("이메일을 입력해주세요."),
   password: Yup.string()
     .min(4, "비밀번호는 최소 4자리 이상 입력해야 합니다.")
     .required("비밀번호를 입력해주세요."),
@@ -27,14 +28,43 @@ const validationSchema = Yup.object().shape({
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useRecoilState(loginUser);
   const initialValues = {
-    email: "",
+    username: "",
     password: "",
   };
 
-  const handleSubmit = (values: FormValues) => {
-    console.log("values= >", values);
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const res = await signinUser(values);
+      if (res.data.code === 1002) {
+        alert(res.data.message);
+        const result = res.data.result;
+        console.log("result =", result);
+        localStorage.setItem("access_token", result.accessToken);
+        console.log("Setting userInfo:", {
+          id: result.id,
+          username: result.username,
+        });
+        setUserInfo({
+          id: result.userInfo.id,
+          username: result.userInfo.username,
+        });
+        navigate("/");
+      }
+    } catch (error: any) {
+      alert(error?.response.data.message);
+      console.log("error", error);
+    }
   };
+
+  useEffect(() => {
+    console.log("loginUser ", userInfo);
+    if (userInfo.id) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div>
       <div className="border">
@@ -52,20 +82,22 @@ const SignIn = () => {
           >
             {(formikProps) => (
               <Form className="space-y-8">
-                <Field name="email">
+                <Field name="username">
                   {({ field, form }: FieldProps<string, FormValues>) => (
                     <FormControl
                       isInvalid={
-                        !!(form?.errors?.email && form?.touched?.email)
+                        !!(form?.errors?.username && form?.touched?.username)
                       }
                     >
                       <Input
                         className="w-full "
                         {...field}
-                        id="email"
-                        placeholder="이메일"
+                        id="username"
+                        placeholder="사용자 이름"
                       ></Input>
-                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      <FormErrorMessage>
+                        {form.errors.username}
+                      </FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
