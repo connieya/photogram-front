@@ -14,6 +14,7 @@ import Auth from "../Auth/Auth";
 import Page404 from "../Error/Page404";
 import { useRecoilValue } from "recoil";
 import { loginUser } from "../../recoil/user";
+import EditAccountDetails from "../../components/EditAcount/EditAccountDetails";
 
 const Router = () => {
   const location = useLocation();
@@ -46,6 +47,11 @@ const Router = () => {
             <Route path="/" element={<HomePage />}></Route>
             <Route path="/:username" element={<Profile />}></Route>
             <Route path="/story" element={<Story />}></Route>
+            <Route
+              path="/account/edit"
+              element={<EditAccountDetails />}
+            ></Route>
+
             <Route path="*" element={<Navigate to="/error/404" />} />
             <Route path="/error/404" element={<Page404 />}></Route>
           </Routes>

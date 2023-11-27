@@ -50,3 +50,10 @@ export type ImageUploadDto = {
   location?: string;
   token?: string | null;
 };
+
+// 프로필 조회
+export type userProfileResponse = {
+  username: string;
+  name: string;
+  website: string;
+};

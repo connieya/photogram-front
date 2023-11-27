@@ -1,4 +1,4 @@
-import { client } from "../../backend/axios";
+import { client } from "../axios";
 import { ImageUploadDto } from "../type";
 const token = localStorage.getItem("access_token");
 
