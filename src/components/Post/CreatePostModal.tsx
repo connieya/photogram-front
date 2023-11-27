@@ -27,13 +27,14 @@ const CreatePostModal: React.FC<CommentModalProps> = ({ isOpen, onClose }) => {
   const [location, setLocation] = useState<string>("");
   const [userInfo, setUserInfo] = useRecoilState(loginUser);
   const navigate = useNavigate();
-
+  const token: string | null = localStorage.getItem("access_token");
   const handleSubmit = async () => {
-    console.log("file ", file, caption, location);
+    console.log("file ", file, caption, location, token);
     const data = {
       file: file,
       caption: caption,
       location: location,
+      token: token,
     };
     try {
       const response = await uploadImage(data);

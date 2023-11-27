@@ -48,4 +48,5 @@ export type ImageUploadDto = {
   file?: File;
   caption?: string;
   location?: string;
+  token?: string | null;
 };

@@ -1,14 +1,20 @@
 import React from "react";
 import { TbCircleDashed } from "react-icons/tb";
+import { useRecoilValue } from "recoil";
+import { loginUser } from "../../recoil/user";
+import { useLocation } from "react-router-dom";
 
 const ProfileUserDetails = () => {
+  const loginUserInfo = useRecoilValue(loginUser);
+  const location = useLocation();
+  console.log("location 이름 ", location.pathname);
   return (
     <div className="py-10 w-full  ">
       <div className="flex items-center">
         <div className="w-[15%]">
           <img
             className="w-32 h-32 rounded-full"
-            src="https://cdn.pixabay.com/photo/2023/11/05/15/24/autumn-8367628_640.jpg"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
             alt=""
           />
         </div>

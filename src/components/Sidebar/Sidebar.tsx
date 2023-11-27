@@ -7,17 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 import CreatePostModal from "../Post/CreatePostModal";
 import SearchComponents from "../SeachComponents/SearchComponents";
+import { useRecoilValue } from "recoil";
+import { loginUser } from "../../recoil/user";
 
 const Sidebar = () => {
   const [activeTab, setAtiveTab] = useState<string>();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
+  const loginUserInfo = useRecoilValue(loginUser);
 
   const handleTabClick = (title: string) => {
     setAtiveTab(title);
     if (title === "Profile") {
-      navigate("/username");
+      navigate(`/${loginUserInfo.username}`);
     } else if (title === "Home") {
       navigate("/");
     } else if (title === "Create") {

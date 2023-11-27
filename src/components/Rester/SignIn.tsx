@@ -20,7 +20,7 @@ interface FormValues {
 }
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("이메일을 입력해주세요."),
+  username: Yup.string().required("사용자 이름을 입력해주세요."),
   password: Yup.string()
     .min(4, "비밀번호는 최소 4자리 이상 입력해야 합니다.")
     .required("비밀번호를 입력해주세요."),
@@ -34,6 +34,8 @@ const SignIn = () => {
     password: "",
   };
 
+  useEffect(() => {}, []);
+
   const handleSubmit = async (values: FormValues) => {
     try {
       const res = await signinUser(values);
@@ -43,8 +45,8 @@ const SignIn = () => {
         console.log("result =", result);
         localStorage.setItem("access_token", result.accessToken);
         console.log("Setting userInfo:", {
-          id: result.id,
-          username: result.username,
+          id: result.userInfo.id,
+          username: result.userInfo.username,
         });
         setUserInfo({
           id: result.userInfo.id,
